@@ -1,0 +1,72 @@
+{
+  "id": "1547970",
+  "name": "SMT",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1576548",
+      "name": "账户",
+      "font_class": "zhanghu",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "3106247",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "6207059",
+      "name": "电源",
+      "font_class": "dianyuan",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "6512625",
+      "name": "账号",
+      "font_class": "zhanghao",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "6696760",
+      "name": "首页-选中",
+      "font_class": "shouye",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6756289",
+      "name": "专家",
+      "font_class": "zhuanjia",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "6969278",
+      "name": "农田",
+      "font_class": "nongtian",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "9365489",
+      "name": "用户管理",
+      "font_class": "yonghuguanli",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "9821726",
+      "name": "权限管理",
+      "font_class": "erpzuocetubiao-",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}

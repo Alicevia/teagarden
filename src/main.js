@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import {Button,message,Layout,Table,Input,Col,Cascader,
-  Modal,Form,Select,Upload,Icon,Popconfirm,Row} from 'ant-design-vue'
+  Modal,Form,Select,Upload,Icon,Popconfirm,Row,Menu} from 'ant-design-vue'
 
 Vue.use(Input)
 Vue.use(Button)//重置css样式
@@ -19,6 +19,8 @@ Vue.use(Popconfirm)
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Cascader)
+Vue.use(Menu)
+
 
 Vue.config.productionTip = false
 new Vue({
