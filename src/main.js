@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import BaiduMap from 'vue-baidu-map'
 import {Button,message,Layout,Table,Input,Col,Cascader,
   Modal,Form,Select,Upload,Icon,Popconfirm,Row,Menu} from 'ant-design-vue'
 
@@ -20,7 +21,9 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Cascader)
 Vue.use(Menu)
-
+Vue.use(BaiduMap, {
+  ak: 'BQyFhqk7zHdmV9lbnpewT7LTdRA2E5gx'
+})
 
 Vue.config.productionTip = false
 new Vue({
