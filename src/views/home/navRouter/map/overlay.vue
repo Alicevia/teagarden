@@ -22,8 +22,8 @@ export default {
     draw({ el, BMap, map }) {
       const { lng, lat } = this.position;
       const pixel = map.pointToOverlayPixel(new BMap.Point(lng, lat));
-      el.style.left = pixel.x - 60 + "px";
-      el.style.top = pixel.y - 20 + "px";
+      el.style.left = pixel.x - 33 + "px";
+      el.style.top = pixel.y - 70 + "px";
     }
   }
 };

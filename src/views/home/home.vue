@@ -3,7 +3,7 @@
     <Nav></Nav>
     <a-layout>
       <Header></Header>
-      <a-layout-content class="content" style="border:1px solid #eee;padding:14px 15px 0px;backgroundColor:white">
+      <a-layout-content class="content" style="border:1px solid #eee;backgroundColor:white">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
@@ -27,7 +27,11 @@ export default {
 .content 
   width 100%
   height 100%
+  margin-top 90px
+  .content-item
+    padding 0 15px
   .current-position
+    line-height 50px
     height 50px
     display flex
     justify-content space-between

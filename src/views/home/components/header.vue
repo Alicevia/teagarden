@@ -37,10 +37,13 @@ export default {
 </script>
 <style lang='stylus' scoped>
 .header
+  position fixed
+  width 100%
   padding 0px
   height 90px
   line-height 90px
   background-color #fff
+  z-index 999
   /deep/ .search-farmland
     margin-left 15px
     width 400px
@@ -53,9 +56,9 @@ export default {
       box-shadow none
       border-radius 5px
   .user-center
-    float right
-    margin-top 18px
-    margin-right 35px
+    position fixed
+    right 34px
+    top 20px
     width 80px
     height 50px
     display flex

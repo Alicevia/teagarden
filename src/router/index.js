@@ -31,6 +31,15 @@ const routes = [
         component:()=>import('home/navRouter/tea/tea.vue')
       },
       {
+        // path:'detail/:detail',
+        path:'detail',
+        name:'detail',
+        component:()=>import('home/navRouter/detail/detail.vue'),
+        // props: (route) => ({ detail: JSON.parse(route.params.detail) }) 
+        props: (route) => ({ detail:route.query }) 
+        // props:true
+      },
+      {
         path:'professor',
         component:()=>import('home/navRouter/professor/professor.vue')
       },

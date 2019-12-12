@@ -6,11 +6,32 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1249146",
+      "name": "勾",
+      "font_class": "gou",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
       "icon_id": "1576548",
       "name": "账户",
       "font_class": "zhanghu",
       "unicode": "e643",
       "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "2279234",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "2565826",
+      "name": "建议",
+      "font_class": "jianyi",
+      "unicode": "e633",
+      "unicode_decimal": 58931
     },
     {
       "icon_id": "3106247",
@@ -20,11 +41,25 @@
       "unicode_decimal": 58900
     },
     {
+      "icon_id": "3250178",
+      "name": "自然资源",
+      "font_class": "ziranziyuan",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
       "icon_id": "6207059",
       "name": "电源",
       "font_class": "dianyuan",
       "unicode": "e608",
       "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "6450279",
+      "name": "备注",
+      "font_class": "remark",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
     },
     {
       "icon_id": "6512625",
@@ -62,11 +97,32 @@
       "unicode_decimal": 58902
     },
     {
+      "icon_id": "9442954",
+      "name": "备注",
+      "font_class": "beizhu",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
       "icon_id": "9821726",
       "name": "权限管理",
       "font_class": "erpzuocetubiao-",
       "unicode": "e601",
       "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "10235805",
+      "name": "地理位置",
+      "font_class": "diliweizhi",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "10497693",
+      "name": "订阅",
+      "font_class": "dingyue",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
     }
   ]
 }
