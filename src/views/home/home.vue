@@ -1,9 +1,9 @@
 <template>
   <a-layout id="components-layout-demo-responsive">
     <Nav></Nav>
-    <a-layout>
+    <a-layout style="backgroundColor:white">
       <Header></Header>
-      <a-layout-content class="content" style="border:1px solid #eee;backgroundColor:white">
+      <a-layout-content class="content" style="height:100%;border:1px solid #eee;backgroundColor:white">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>
@@ -15,11 +15,15 @@
 import Header from "./components/header";
 import Nav from "./components/nav";
 export default {
+  activated(){
+
+  },
   methods: {},
   components: {
     Header,
     Nav
-  }
+  },
+  
 };
 </script>
 

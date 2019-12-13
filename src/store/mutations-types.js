@@ -1,0 +1,1 @@
+export const CHANGE_REMARK_FLAG = 'CHANGE_REMARK_FLAG'

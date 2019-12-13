@@ -6,6 +6,12 @@
   </div>
 </template>
 <script>
+export default{
+  activated(){
+    
+
+  }
+}
 </script>
 <style lang="stylus">
 @import '~@/assets/css/reset.styl'

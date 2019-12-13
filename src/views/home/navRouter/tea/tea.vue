@@ -1,32 +1,20 @@
 <template>
-  <div class="content-item">
-    <div class="current-position">
-      <span>当前位置:茶园列表</span>
-      <div>
-        <a-input-search placeholder="搜索" style="width: 200px" @search="onSearch" />
-        <a-button style="margin:0 10px">查询</a-button>
-        <a-button type="primary">导出</a-button>
-      </div>
+  <TableShow :columns='columns' :tableData='tableData' :rowSelection='rowSelection'>
+    <span slot="title">当前页面:茶园</span>
+    <div slot="opreate">
+      <a-input-search placeholder="搜索" style="width: 200px" />
+      <a-button style="margin:0 10px">查询</a-button>
+      <a-button type="primary">导出</a-button>
     </div>
-    <a-table
-      :columns="columns"
-      :customRow="customRow"
-      rowKey="id"
-      :pagination="pagination"
-      :dataSource="data"
-      class="table-header"
-    >
-      <template slot="action" slot-scope="text">
-        <a-button type="primary" style="borderRadius:16px">
-          <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
-          <span style="marginLeft:6px">订阅</span>
-        </a-button>
-      </template>
-    </a-table>
-  </div>
+     <a-button slot="action" type="primary" style="borderRadius:16px">
+      <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
+      <span style="marginLeft:6px">订阅</span>
+    </a-button>
+  </TableShow>
 </template>
 
 <script>
+import TableShow from "home/components/tableShow";
 const columns = [
   { align: "center", title: "序号", dataIndex: "id", key: "id" },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
@@ -47,10 +35,10 @@ const columns = [
   }
 ];
 
-const data = [];
+const tableData = [];
 
 for (let i = 0; i < 46; i++) {
-  data.push({
+  tableData.push({
     id: i,
     name: `南京茶园 ${i}`,
     age: 32,
@@ -63,49 +51,37 @@ for (let i = 0; i < 46; i++) {
 export default {
   data() {
     return {
-      data,
-      columns
+      columns,tableData
     };
   },
 
   computed: {
-    pagination: {
-      get() {
-        return {
-          defaultPageSize: 10,
-          size: "middle",
-          position: "bottom"
-          // showSizeChanger:true,
-          // onChange: this.changePage
-        };
-      }
+    rowSelection() {
+      const { selectedRowKeys } = this;
+      return {
+        onChange: (selectedRowKeys, selectedRows) => {
+          console.log(
+            `selectedRowKeys: ${selectedRowKeys}`,
+            "selectedRows: ",
+            selectedRows
+          );
+        },
+        getCheckboxProps: record => ({
+          props: {
+            disabled: record.name === "Disabled User", // Column configuration not to be checked
+            name: record.name
+          }
+        })
+      };
     }
+
   },
 
   mounted() {},
 
-  methods: {
-    onSearch(value) {},
-    tableRow(record) {
-      this.$router.push({ path: "/home/detail", query: record });
-      // this.$router.push({name:'detail',params:{detail:JSON.stringify(record)}})
-    },
-    customRow(record) {
-      return {
-        on: {
-          click: () => this.tableRow(record)
-        }
-      };
-    }
-  },
+  methods: {},
 
-  components: {}
+  components: { TableShow }
 };
 </script>
-<style lang='stylus' scoped>
-.table-header
-  /deep/ .ant-table-thead th
-    background-color #eee
-  /deep/.ant-table-tbody > tr:hover > td
-    background-color #F6F6F6
-</style>
+<style lang='stylus' scoped></style>

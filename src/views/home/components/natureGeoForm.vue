@@ -4,9 +4,9 @@
       <span class="iconfont">&#xe626;</span>
       地理位置
     </h2>
-    <!-- <a-form :form="form" style="backgroundColor:pink"> -->
+    <a-form :form="form" >
       <a-row :gutter='0'  type="flex" justify="space-between" style="display:flex;justify-content:space-between" >
-        <a-col v-for="(item,index) in formItemGeo" :key="index" :span="8" style="height:45px">
+        <a-col v-for="(item,index) in formItemGeo" :key="index" :span="8" style="height:45px;width:360px">
           <a-form-item
             :label-col="formLayout.labelCol"
             :wrapper-col="formLayout.wrapperCol"
@@ -36,7 +36,7 @@
         自然条件
       </h2>
       <a-row :gutter='24'  type="flex" justify="space-between" >
-        <a-col v-for="(item,index) in formItemNature" :key="index" :span="8" style="height:45px">
+        <a-col v-for="(item,index) in formItemNature" :key="index" :span="8" style="height:45px;width:360px">
           <a-form-item
             :label-col="formLayout.labelCol"
             :wrapper-col="formLayout.wrapperCol"
@@ -61,7 +61,7 @@
           </a-form-item>
         </a-col>
       </a-row>
-    <!-- </a-form> -->
+    </a-form>
   </div>
 </template>
 
@@ -70,8 +70,8 @@ export default {
   data() {
     return {
       formLayout: {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 18 }
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16}
       },
       form: this.$form.createForm(this, { name: "advanced_search" })
     };
@@ -137,6 +137,9 @@ export default {
 <style lang='stylus' scoped>
 .nature-geo
   width 100%
+  border-bottom 1px  solid #eee
+  padding-bottom 20px
+  margin-bottom 25px
   .title
     font-weight bold
     font-size 18px

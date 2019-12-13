@@ -9,24 +9,24 @@
     <div class="logo">
       <img class="logo-img" src="../../../assets/images/logo.png" alt />
     </div>
-    <a-menu class="nav-menu" mode="inline" :defaultSelectedKeys="['1']">
-      <a-menu-item @click="changeRouter('/home/map')" key="1"  class="nav-menu-item" style="padding-left:60px" >
+    <a-menu class="nav-menu" mode="inline" :defaultSelectedKeys='[$route.path]'>
+      <a-menu-item @click="changeRouter('/home/map')" key="/home/map" class="nav-menu-item" style="padding-left:60px" >
          <span class="iconfont">&#xe600;</span>
           <span class="nav-text">首页</span>
       </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/tea')"  class="nav-menu-item" style="padding-left:60px">
+      <a-menu-item @click="changeRouter('/home/tea')" key="/home/tea" class="nav-menu-item" style="padding-left:60px">
         <span class="iconfont">&#xe64a;</span>
         <span class="nav-text">茶园</span>
       </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/professor')" class="nav-menu-item" style="padding-left:60px">
+      <a-menu-item @click="changeRouter('/home/professor')" key="/home/professor" class="nav-menu-item" style="padding-left:60px">
         <span class="iconfont">&#xe607;</span>
         <span class="nav-text">专家</span>
       </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/usermanage')"  class="nav-menu-item" style="padding-left:60px">
+      <a-menu-item @click="changeRouter('/home/usermanage')" key="/home/usermanage" class="nav-menu-item" style="padding-left:60px">
         <span class="iconfont">&#xe616;</span>
         <span class="nav-text">用户管理</span>
       </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/admin')"  class="nav-menu-item" style="padding-left:60px">
+      <a-menu-item @click="changeRouter('/home/admin')" key="/home/admin" class="nav-menu-item" style="padding-left:60px">
         <span class="iconfont">&#xe601;</span>
         <span class="nav-text">权限管理</span>
       </a-menu-item>
@@ -42,7 +42,8 @@ export default {
 
   computed: {},
 
-  mounted() {},
+  mounted() {
+  },
 
   methods: {
     onCollapse(collapsed, type) {

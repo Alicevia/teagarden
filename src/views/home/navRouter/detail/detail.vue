@@ -3,7 +3,8 @@
     <div class="current-position">
       <span @click="goBack" class="iconfont" style="cursor:pointer">当前位置: 列表/详情页</span>
       <div class="detail-operate">
-         <a-button type="primary" style="borderRadius:16px;backgroundColor:#EEEEEE;color:#000000;border:none">
+         <a-button type="primary" @click="showRemarkDialog"
+          style="borderRadius:16px;backgroundColor:#EEEEEE;color:#000000;border:none">
           <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
           <span style="marginLeft:6px">备注</span>
         </a-button>
@@ -19,13 +20,19 @@
     </div>
     <div class="detail-container">
       <NatureGeoForm></NatureGeoForm>
-
+      <Comment commentTitle="用户备注"></Comment>  
+      <Comment  commentTitle="专家建议"></Comment>  
+        <RemarkDialog></RemarkDialog>
+      
     </div>
   </div>
 </template>
 
 <script>
+import RemarkDialog from 'home/components/remarkDialog'
 import NatureGeoForm from 'home/components/natureGeoForm'
+import Comment from 'home/components/comment'
+import * as TYPES from '@/store/mutations-types'
 export default {
   props: ["detail"],
   data() {
@@ -36,17 +43,18 @@ export default {
 
   mounted() {},
   activated() {
-    console.log(this.detail);
-    console.log(this.$route);
   },
 
   methods: {
+    showRemarkDialog(){
+      this.$store.commit(TYPES.CHANGE_REMARK_FLAG)
+    },
     goBack() {
       this.$router.go(-1);
     }
   },
 
-  components: {NatureGeoForm}
+  components: {NatureGeoForm,Comment,RemarkDialog}
 };
 </script>
 <style lang='stylus' scoped>
@@ -58,4 +66,6 @@ export default {
   margin-right 127px
 .detail-container  
   padding 10px 127px 0;
+  background-color #fff
+
 </style>

@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import BaiduMap from 'vue-baidu-map'
-import {Button,message,Layout,Table,Input,Col,Cascader,
+
+import {Button,message,Layout,Table,Input,Col,Switch,
+  Cascader,Comment,Avatar,List,Spin,
   Modal,Form,Select,Upload,Icon,Popconfirm,Row,Menu} from 'ant-design-vue'
 
 Vue.use(Input)
@@ -21,6 +23,11 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Cascader)
 Vue.use(Menu)
+Vue.use(Comment)
+Vue.use(Avatar)
+Vue.use(List)
+Vue.use(Switch)
+Vue.use(Spin)
 Vue.use(BaiduMap, {
   ak: 'BQyFhqk7zHdmV9lbnpewT7LTdRA2E5gx'
 })
