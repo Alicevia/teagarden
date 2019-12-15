@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ["rowSelection", "columns", "tableData"],
+  props: ["rowSelection", "columns", "tableData",'customRow'],
   data() {
     return {};
   },
@@ -40,27 +40,24 @@ export default {
           // onChange: this.changePage
         };
       }
-    }
+    },
+    // customRow(record) {
+    //   return record => {
+    //     return {
+    //       on: {
+    //         click: e => {
+    //           this.$router.push({ path: "/home/detail", query: record });
+    //         }
+    //       }
+    //     };
+    //   };
+    // }
   },
 
   mounted() {},
 
   methods: {
-    onSearch(value) {},
-    tableRow(record) {
-      this.$router.push({ path: "/home/detail", query: record });
-      // this.$router.push({name:'detail',params:{detail:JSON.stringify(record)}})
-    },
-    customRow(record) {
-   
-      return {
-        on: {
-          click: e => {
-            this.tableRow(record);
-          }
-        }
-      };
-    }
+    onSearch(value) {}
   },
 
   components: {}

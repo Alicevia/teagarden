@@ -43,6 +43,7 @@ export default {
 
   mounted() {},
   activated() {
+    console.log(this.detail)
   },
 
   methods: {
@@ -63,9 +64,9 @@ export default {
   display flex
   justify-content space-between
   align-items center
-  margin-right 127px
+  margin-right 107px
 .detail-container  
-  padding 10px 127px 0;
+  padding 10px 107px 0;
   background-color #fff
 
 </style>

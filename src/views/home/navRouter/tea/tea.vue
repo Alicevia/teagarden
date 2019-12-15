@@ -1,5 +1,5 @@
 <template>
-  <TableShow :columns='columns' :tableData='tableData' :rowSelection='rowSelection'>
+  <TableShow :columns='columns' :tableData='tableData' :customRow='customRow' :rowSelection='rowSelection'>
     <span slot="title">当前页面:茶园</span>
     <div slot="opreate">
       <a-input-search placeholder="搜索" style="width: 200px" />
@@ -72,6 +72,17 @@ export default {
             name: record.name
           }
         })
+      };
+    },
+     customRow(record) {
+      return record => {
+        return {
+          on: {
+            click: e => {
+              this.$router.push({ path: "/home/detail", query: record });
+            }
+          }
+        };
       };
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <TableShow :columns='columns' :tableData='tableData'>
+  <TableShow :columns='columns' :tableData='tableData' :customRow='customRow'>
     <span slot="title">当前页面:专家</span>
     <div slot="opreate">
       <a-input-search placeholder="搜索" style="width: 200px" />
@@ -59,7 +59,19 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+     customRow(record) {
+      return record => {
+        return {
+          on: {
+            click: e => {
+              this.$router.push({ path: "/home/detail", query: record });
+            }
+          }
+        };
+      };
+    }
+  },
 
   mounted() {},
 

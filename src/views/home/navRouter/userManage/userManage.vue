@@ -2,8 +2,8 @@
   <TableShow :columns='columns' :tableData='tableData'>
      <span slot="title">当前页面:用户管理</span>
     <div slot="opreate">
-      <a-select defaultValue="a1" style="width: 200px">
-        <a-select-option
+      <a-select defaultValue="a1" style="width: 200px" ref="select">
+        <a-select-option  @click.stop
           v-for="i in 25"
           :key="(i + 9).toString(36) + i"
         >{{(i + 9).toString(36) + i}}</a-select-option>
@@ -11,7 +11,7 @@
       <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px"/>
       <a-button style="backgroundColor:#00B57E;color:white">查询</a-button>
     </div>
-      <a-switch slot="action" checkedChildren="同意" unCheckedChildren="拒绝" defaultChecked />
+      <a-switch size='small' slot="action" checkedChildren="已同意" unCheckedChildren="待审核"  />
   </TableShow>
 </template>
 
