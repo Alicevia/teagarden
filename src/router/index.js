@@ -17,8 +17,8 @@ const routes = [
   },
   {
     path:'/home',
-    // component:()=>import('views/home/home.vue'),
-    component:Home,
+    component:()=>import('views/home/home.vue'),
+    // component:Home,
     meta:{check:true},
     children:[
       {

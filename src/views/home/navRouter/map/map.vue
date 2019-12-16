@@ -1,15 +1,10 @@
 <template>
   <el-amap vid="amapDemo" :zoom="zoom" :plugin="plugin" :center="center" class="map">
     <template v-for="(item,index) in tea">
-      <el-amap-marker  :position="item.position" 
-        :events='item.events' :extData='item.extData'
+      <el-amap-marker  :position="item.position" :key="item.position[0]" :label='item.label'
+       :events='item.events' :extData='item.extData'
       ></el-amap-marker>
-      <el-amap-text
-        :text="item.label.content"
-        :offset="item.label.offset"
-        :position="item.position"
-        :key="index"
-      ></el-amap-text>
+    
     </template>
   </el-amap>
 </template>
@@ -24,8 +19,8 @@ export default {
         {
           position: [117.75888888, 27.973888888],
           label: {
-            content: "武夷山篁村",
-            offset: [0, -50]
+            content: "武夷山篁村1",
+            offset: [-20,-20]
           },
           extData:{kk:'232'},
           events: {
@@ -39,7 +34,7 @@ export default {
           position: [117.7566666, 27.970277777777],
           label: {
             content: "武夷山篁村",
-            offset: [0, -50]
+            offset: [-20,-20]
           },
           extData:{kk:'232'},
 
@@ -54,7 +49,7 @@ export default {
           position: [117.81722, 27.9508333],
           label: {
             content: "武夷山乌石村",
-            offset: [0, -50]
+            offset: [-20,-20]
           },
           extData:{kk:'232'},
 
@@ -69,7 +64,7 @@ export default {
           position: [117.81583333, 27.9547222222],
           label: {
             content: "武夷山乌石村",
-            offset: [0, -50]
+             offset: [-20,-20]
           },
           extData:{kk:'232'},
 
