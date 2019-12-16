@@ -30,6 +30,10 @@
         <span class="iconfont">&#xe601;</span>
         <span class="nav-text">权限管理</span>
       </a-menu-item>
+      <a-menu-item @click="changeRouter('/home/data')" key="/home/data" class="nav-menu-item" style="padding-left:60px">
+        <span class="iconfont">&#xe601;</span>
+        <span class="nav-text">数据上传</span>
+      </a-menu-item>
     </a-menu>
   </a-layout-sider>
 </template>
@@ -37,14 +41,17 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      selectNav:'home'
+    };
   },
 
   computed: {},
-
+  
   mounted() {
   },
-
+  activated(){
+  },
   methods: {
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
@@ -53,6 +60,9 @@ export default {
       console.log(broken);
     },
     changeRouter(path){
+    console.log(this.$route)
+      
+
       this.$router.push({path})
     }
   },

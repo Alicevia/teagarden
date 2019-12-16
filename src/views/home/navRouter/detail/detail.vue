@@ -12,7 +12,7 @@
           <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
           <span style="marginLeft:6px">提交</span>
         </a-button>
-        <a-button type="primary" style="borderRadius:16px">
+        <a-button type="primary" style="borderRadius:16px"  @click="subscribeTea">
           <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
           <span style="marginLeft:6px">订阅</span>
         </a-button>
@@ -23,7 +23,6 @@
       <Comment commentTitle="用户备注"></Comment>  
       <Comment  commentTitle="专家建议"></Comment>  
         <RemarkDialog></RemarkDialog>
-      
     </div>
   </div>
 </template>
@@ -52,6 +51,9 @@ export default {
     },
     goBack() {
       this.$router.go(-1);
+    },
+    subscribeTea(){
+      console.log(this.$route.path)
     }
   },
 

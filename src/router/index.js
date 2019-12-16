@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Map from 'home/navRouter/map/map.vue'
+import Home from 'home/home.vue'
 Vue.use(VueRouter)
 
 const routerPush = VueRouter.prototype.push
@@ -15,7 +17,8 @@ const routes = [
   },
   {
     path:'/home',
-    component:()=>import('views/home/home.vue'),
+    // component:()=>import('views/home/home.vue'),
+    component:Home,
     meta:{check:true},
     children:[
       {
@@ -25,6 +28,7 @@ const routes = [
       {
         path:'map',
         component:()=>import('home/navRouter/map/map.vue')
+        // component:Map
       },
       {
         path:'tea',
@@ -50,6 +54,14 @@ const routes = [
       {
         path:'admin',
         component:()=>import('home/navRouter/admin/admin.vue')
+      },
+      {
+        path:'data',
+        component:()=>import('home/navRouter/dataUpload/dataUpload.vue')
+      },
+      {
+        path:'account',
+        component:()=>import('home/navRouter/account/account.vue')
       },
     ]
   },

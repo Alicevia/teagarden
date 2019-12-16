@@ -6,9 +6,9 @@
       <a-button style="margin:0 10px">查询</a-button>
       <a-button type="primary">导出</a-button>
     </div>
-    <a-button slot="action" type="primary" style="borderRadius:16px">
+    <a-button slot="action" type="primary" style="borderRadius:16px"  @click.stop="advisePro">
       <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
-      <span style="marginLeft:6px">建议</span>
+      <span style="marginLeft:6px" @click.stop.native>建议</span>
     </a-button>
   </TableShow>
 </template>
@@ -75,7 +75,11 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    advisePro(){
+      
+    }
+  },
 
   components: { TableShow }
 };

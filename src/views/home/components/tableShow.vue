@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ["rowSelection", "columns", "tableData",'customRow'],
+  props: ["rowSelection", "columns", "tableData", "customRow"],
   data() {
     return {};
   },
@@ -40,7 +40,7 @@ export default {
           // onChange: this.changePage
         };
       }
-    },
+    }
     // customRow(record) {
     //   return record => {
     //     return {

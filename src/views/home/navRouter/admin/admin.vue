@@ -11,13 +11,12 @@
       <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px" />
       <a-button style="backgroundColor:#00B57E;color:white">查询</a-button>
     </div>
-    <a-button slot="action" size="default" style="backgroundColor:#399DCC;color:white" @click.stop.native>重置</a-button>
-   
+    <a-button slot="action" size="default" style="backgroundColor:#399DCC;color:white">重置</a-button>
     <template slot="role">
-      <a-select defaultValue="a1" style="width: 200px" @click.stop.native>
+      <a-select defaultValue="a1" style="width: 200px">
         <a-select-option  v-for="(item,index) in ['普通用户','专家','管理员']" :key="index">{{item}}</a-select-option>
       </a-select>
-      <a-button type="primary" style="marginLeft:10px" @click.stop.native>提交</a-button>
+      <a-button type="primary" style="marginLeft:10px">提交</a-button>
     </template>
   </TableShow>
 </template>

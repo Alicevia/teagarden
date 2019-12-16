@@ -1,22 +1,22 @@
 <template>
-  <TableShow :columns='columns' :tableData='tableData'>
-     <span slot="title">当前页面:用户管理</span>
+  <TableShow :columns="columns" :tableData="tableData">
+    <span slot="title">当前页面:用户管理</span>
     <div slot="opreate">
       <a-select defaultValue="a1" style="width: 200px" ref="select">
-        <a-select-option  @click.stop
+        <a-select-option
           v-for="i in 25"
           :key="(i + 9).toString(36) + i"
         >{{(i + 9).toString(36) + i}}</a-select-option>
       </a-select>
-      <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px"/>
+      <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px" />
       <a-button style="backgroundColor:#00B57E;color:white">查询</a-button>
     </div>
-      <a-switch size='small' slot="action" checkedChildren="已同意" unCheckedChildren="待审核"  />
+    <a-switch slot="action" checkedChildren="已同意" unCheckedChildren="待审核" disabled />
   </TableShow>
 </template>
 
 <script>
-import TableShow from 'home/components/tableShow'
+import TableShow from "home/components/tableShow";
 const columns = [
   { align: "center", title: "序号", dataIndex: "id", key: "id" },
   { align: "center", title: "名称", dataIndex: "name", key: "name" },
@@ -36,27 +36,24 @@ for (let i = 0; i < 46; i++) {
     id: i,
     name: `南京茶园 ${i}`,
     role: 32,
-    phone: 2000 + i,
+    phone: 2000 + i
   });
 }
 export default {
-  data () {
+  data() {
     return {
-      columns,tableData
+      columns,
+      tableData
     };
   },
 
   computed: {},
 
-  mounted(){},
+  mounted() {},
 
-  methods: {
-   
-  },
+  methods: {},
 
-  components: {TableShow},
-}
-
+  components: { TableShow }
+};
 </script>
-<style lang='stylus' scoped>
-</style>
+<style lang='stylus' scoped></style>

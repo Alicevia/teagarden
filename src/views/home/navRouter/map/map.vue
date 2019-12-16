@@ -1,35 +1,120 @@
 <template>
-  <baidu-map class="map" :scroll-wheel-zoom="true" :center="center" :zoom="zoom" @ready="handler">
-    <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
-    <!-- <Overlay
-      :position="center"
-      :active="active"
-      @mouseover.native="active = true"
-      @mouseleave.native="active = false"
-    ></Overlay> -->
-     <bm-marker  :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
-    </bm-marker>
-    <bm-info-window class="window-text"  :position="center" title="茶园名称"
-      :closeOnClick='false' 
-     :show="infoWindow.show" @close="infoWindowClose" @open="infoWindowOpen">
-      <p v-text="infoWindow.contents"></p>
-    </bm-info-window>
-  </baidu-map>
+  <el-amap vid="amapDemo" :zoom="zoom" :plugin="plugin" :center="center" class="map">
+    <template v-for="(item,index) in tea">
+      <el-amap-marker  :position="item.position" 
+        :events='item.events' :extData='item.extData'
+      ></el-amap-marker>
+      <el-amap-text
+        :text="item.label.content"
+        :offset="item.label.offset"
+        :position="item.position"
+        :key="index"
+      ></el-amap-text>
+    </template>
+  </el-amap>
 </template>
 
 <script>
-import Overlay from "./overlay";
+import VueAMap from "vue-amap";
+
 export default {
   data() {
     return {
-      center: { lng: 117.75888888, lat:27.973888888},
-      zoom: 3,
+      tea: [
+        {
+          position: [117.75888888, 27.973888888],
+          label: {
+            content: "武夷山篁村",
+            offset: [0, -50]
+          },
+          extData:{kk:'232'},
+          events: {
+            click: (item, e) => {
+              this.$router.push({ path: "/home/detail" });
+              console.log(item, e);
+            }
+          }
+        },
+        {
+          position: [117.7566666, 27.970277777777],
+          label: {
+            content: "武夷山篁村",
+            offset: [0, -50]
+          },
+          extData:{kk:'232'},
+
+          events: {
+            click: (item, e) => {
+              this.$router.push({ path: "/home/detail" });
+              console.log(item, e);
+            }
+          }
+        },
+        {
+          position: [117.81722, 27.9508333],
+          label: {
+            content: "武夷山乌石村",
+            offset: [0, -50]
+          },
+          extData:{kk:'232'},
+
+          events: {
+            click: (item, e) => {
+              this.$router.push({ path: "/home/detail" });
+              console.log(item, e);
+            }
+          }
+        },
+        {
+          position: [117.81583333, 27.9547222222],
+          label: {
+            content: "武夷山乌石村",
+            offset: [0, -50]
+          },
+          extData:{kk:'232'},
+
+          events: {
+            click: (item, e) => {
+
+              this.$router.push({ path: "/home/detail" });
+              console.log(item, e);
+            }
+          }
+        }
+      ],
+      center: [117.75888888, 27.973888888],
+      zoom: 11,
       active: false,
-      infoWindow: {
-        show: true,
-        contents: '武夷山镇篁村',
-        
-      }
+      label: {
+        content: "武夷山镇篁村",
+        offset: [-20, 40]
+      },
+      plugin: [
+        {
+          pName: "ToolBar", //工具条插件
+          position: "LT"
+        }
+        // {
+        //   pName: "Geolocation",
+        //   showMarker: true,
+        //   buttonPosition: "RB",
+        //   events: {
+        //     init(o) {
+        //       //定位成功 自动将marker和circle移到定位点
+        //       o.getCurrentPosition((status, result) => {
+        //         console.log(result);
+        //         if (result && result.position) {
+        //           self.center = [result.position.lng, result.position.lat];
+        //           self.loaded = true;
+        //         } else {
+        //           console.log(`定位失败`);
+        //         }
+        //       });
+        //       console.log(o);
+        //     }
+        //   }
+        // }
+      ]
     };
   },
 
@@ -38,22 +123,12 @@ export default {
   mounted() {},
 
   methods: {
-    handler({ BMap, map }) {
-      console.log(BMap, map);
-      this.zoom = 13;
-    },
-    infoWindowClose (e) {
-      this.infoWindow.show = false
-    },
-    infoWindowOpen (e) {
-      this.infoWindow.show = true
-    },
-    clear () {
-      this.infoWindow.contents = ''
+    teaArea(item) {
+      console.log(item);
     }
   },
 
-  components: { Overlay }
+  components: {}
 };
 </script>
 <style lang='stylus' scoped>

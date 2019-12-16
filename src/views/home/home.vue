@@ -3,7 +3,7 @@
     <Nav></Nav>
     <a-layout style="backgroundColor:white">
       <Header></Header>
-      <a-layout-content class="content" style="height:100%;border:1px solid #eee;backgroundColor:white">
+      <a-layout-content class="content" ref="content" style="height:100%;border:1px solid #eee;backgroundColor:white">
         <keep-alive>
           <router-view></router-view>
         </keep-alive>

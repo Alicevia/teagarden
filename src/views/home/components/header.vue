@@ -4,10 +4,10 @@
       <a-icon slot="prefix" type="search" />
     </a-input>
     <div class="user-center">
-      <div class="account">
+      <router-link to="/home/account" tag="div" class="account">
         <span class="iconfont">&#xe643;</span>
         <span>账户</span>
-      </div>
+      </router-link>
       <div class="logout">
         <span class="iconfont">&#xe608;</span>
         <span>退出</span>
@@ -29,7 +29,7 @@ export default {
   methods: {
     searchFarm(value) {
       console.log(value);
-    }
+    },
   },
 
   components: {}
