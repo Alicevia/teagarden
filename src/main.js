@@ -4,32 +4,26 @@ import router from './router'
 import store from './store'
 
 import {
-  Button, message, Layout, Table, Input, Col, Switch,
+  Button, message, Layout, Table, Input, Col, Switch,Popover,
   Cascader, Comment, Avatar, List, Spin, AutoComplete, Checkbox,
   Modal, Form, Select, Upload, Icon, Tooltip, Row, Menu
 } from 'ant-design-vue'
 
 import VueAMap from 'vue-amap'
+
+function syncStorageToAxios() {
+  if (localStorage.getItem('user-token')) {
+      let userToken =  localStorage.getItem('user-token')
+      store.dispatch('getUserToken',userToken)
+  }
+}
+syncStorageToAxios()
+
+
 Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  key: "23a9ece5a475725cf1a4b1cda321e6ce",
-  plugin: [
-    "AMap.Autocomplete",
-    "AMap.PlaceSearch",
-    "AMap.Scale",
-    "AMap.OverView",
-    "AMap.ToolBar",
-    "AMap.MapType",
-    "AMap.PolyEditor",
-    "AMap.CircleEditor",
-    "AMap.Geolocation"
-  ],
-  v: "1.4.4"
-});
-
-
 
 Vue.use(Input)
+Vue.use(Popover)
 Vue.use(AutoComplete)
 Vue.use(Checkbox)
 Vue.use(Button)//重置css样式

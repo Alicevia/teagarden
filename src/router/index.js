@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Map from 'home/navRouter/map/map.vue'
-import Home from 'home/home.vue'
+import store from '@/store'
 Vue.use(VueRouter)
 
 const routerPush = VueRouter.prototype.push
@@ -12,7 +11,8 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   {
     path:'',
-    redirect:'/home',
+    redirect:'/login',
+    // redirect:'/home',
     meta:{check:false}
   },
   {
@@ -77,14 +77,37 @@ const routes = [
       {
         path:'sign',
         component:()=>import('views/login/loginRouter/sign.vue')
+      },     
+       {
+        path:'register',
+        component:()=>import('views/login/loginRouter/register.vue')
+      },
+      {
+        path:'forget',
+        component:()=>import('views/login/loginRouter/forget.vue')
       },
     ]
   }
 ]
 
+
 const router = new VueRouter({
   linkActiveClass: 'active',
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  let isLogin = store.state.userToken
+  if (to.matched[0].meta.check) {
+    if (isLogin) {
+      next()
+    } else {
+      router.push({ path: '/login' })
+    }
+  } else {
+    next()
+  }
+})
+
 
 export default router

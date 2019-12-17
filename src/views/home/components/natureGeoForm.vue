@@ -24,6 +24,7 @@
                       message: 'Input something!',
                     },
                   ],
+                  initialValue:tea[item[0]]
                 },
               ]"
               placeholder="placeholder"
@@ -48,6 +49,7 @@
               v-decorator="[
                 item[0],
                 {
+                  initialValue:tea[item[0]],
                   rules: [
                     {
                       required: false,
@@ -67,6 +69,7 @@
 
 <script>
 export default {
+  props:['tea'],
   data() {
     return {
       formLayout: {

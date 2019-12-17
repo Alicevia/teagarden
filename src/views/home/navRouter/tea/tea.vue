@@ -1,5 +1,5 @@
 <template>
-  <TableShow :columns='columns' :tableData='tableData' :customRow='customRow' :rowSelection='rowSelection'>
+  <TableShow :columns='columns' :tableData='teaInfo' :customRow='customRow' :rowSelection='rowSelection'>
     <span slot="title">当前页面:茶园</span>
     <div slot="opreate">
       <a-input-search placeholder="搜索" style="width: 200px" />
@@ -15,6 +15,7 @@
 
 <script>
 import TableShow from "home/components/tableShow";
+import { mapState } from 'vuex';
 const columns = [
   { align: "center", title: "序号", dataIndex: "id", key: "id" },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
@@ -35,27 +36,15 @@ const columns = [
   }
 ];
 
-const tableData = [];
-
-for (let i = 0; i < 46; i++) {
-  tableData.push({
-    id: i,
-    name: `南京茶园 ${i}`,
-    age: 32,
-    year: 2000 + i,
-    area: i,
-    varieties: i,
-    address: `南京双龙大道${i}号`
-  });
-}
 export default {
   data() {
     return {
-      columns,tableData
+      columns
     };
   },
 
   computed: {
+    ...mapState(['teaInfo']),
     rowSelection() {
       const { selectedRowKeys } = this;
       return {

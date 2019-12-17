@@ -8,7 +8,7 @@
         <span class="iconfont">&#xe643;</span>
         <span>账户</span>
       </router-link>
-      <div class="logout">
+      <div class="logout" @click="logout">
         <span class="iconfont">&#xe608;</span>
         <span>退出</span>
       </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {};
@@ -27,9 +28,15 @@ export default {
   mounted() {},
 
   methods: {
+    ...mapActions(['getUserLogout']),
     searchFarm(value) {
       console.log(value);
     },
+    logout(){
+      this.getUserLogout().then(()=>{
+        this.$router.push({path:'/login'})
+      })
+    }
   },
 
   components: {}

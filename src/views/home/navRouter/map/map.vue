@@ -1,88 +1,50 @@
 <template>
   <el-amap vid="amapDemo" :zoom="zoom" :plugin="plugin" :center="center" class="map">
-    <template v-for="(item,index) in tea">
-      <el-amap-marker  :position="item.position" :key="item.position[0]" :label='item.label'
-       :events='item.events' :extData='item.extData'
+    <template v-for="(item,index) in teaInfo">
+      <el-amap-marker
+        :position="[item.longitude,item.latitude]"
+        :key="item.id"
+        :label="{content:item.name,offset: [-20, -20]}"
+        :events="events"
+        :extData="item"
       ></el-amap-marker>
-    
     </template>
   </el-amap>
 </template>
 
 <script>
 import VueAMap from "vue-amap";
-
+import { mapState } from 'vuex';
+VueAMap.initAMapApiLoader({
+  key: "23a9ece5a475725cf1a4b1cda321e6ce",
+  plugin: [
+    "AMap.Autocomplete",
+    "AMap.PlaceSearch",
+    "AMap.Scale",
+    "AMap.OverView",
+    "AMap.ToolBar",
+    "AMap.MapType",
+    "AMap.PolyEditor",
+    "AMap.CircleEditor",
+    "AMap.Geolocation"
+  ],
+  v: "1.4.4"
+});
 export default {
   data() {
     return {
-      tea: [
-        {
-          position: [117.75888888, 27.973888888],
-          label: {
-            content: "武夷山篁村1",
-            offset: [-20,-20]
-          },
-          extData:{kk:'232'},
-          events: {
-            click: (item, e) => {
-              this.$router.push({ path: "/home/detail" });
-              console.log(item, e);
-            }
-          }
-        },
-        {
-          position: [117.7566666, 27.970277777777],
-          label: {
-            content: "武夷山篁村",
-            offset: [-20,-20]
-          },
-          extData:{kk:'232'},
-
-          events: {
-            click: (item, e) => {
-              this.$router.push({ path: "/home/detail" });
-              console.log(item, e);
-            }
-          }
-        },
-        {
-          position: [117.81722, 27.9508333],
-          label: {
-            content: "武夷山乌石村",
-            offset: [-20,-20]
-          },
-          extData:{kk:'232'},
-
-          events: {
-            click: (item, e) => {
-              this.$router.push({ path: "/home/detail" });
-              console.log(item, e);
-            }
-          }
-        },
-        {
-          position: [117.81583333, 27.9547222222],
-          label: {
-            content: "武夷山乌石村",
-             offset: [-20,-20]
-          },
-          extData:{kk:'232'},
-
-          events: {
-            click: (item, e) => {
-
-              this.$router.push({ path: "/home/detail" });
-              console.log(item, e);
-            }
-          }
-        }
-      ],
       center: [117.75888888, 27.973888888],
       zoom: 11,
       active: false,
       label: {
         content: "武夷山镇篁村",
-        offset: [-20, 40]
+        offset: [-20, -20]
+      },
+      events: {
+        click: (item, e) => {
+          this.$router.push({ path: "/home/detail",query:item.target.F.extData });
+          console.log(item, e);
+        }
       },
       plugin: [
         {
@@ -113,7 +75,9 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    ...mapState(['teaInfo'])
+  },
 
   mounted() {},
 

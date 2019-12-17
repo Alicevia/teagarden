@@ -4,50 +4,71 @@
       <span class="iconfont">&#xe678;</span> 登录
     </div>
     <img class="logo" src="@/assets/images/logo.png" alt />
-    <a-form id="components-form-demo-normal-login" 
-   
-    :form="form" class="form">
+    <a-form id="components-form-demo-normal-login" :form="form" class="form">
       <a-form-item>
         <a-input
-          size='large'
+          size="large"
           v-decorator="[
-          'userName',
-          { rules: [{ required: true, message: '请输入用户名' }] },
-        ]"
-          placeholder="用户名"
+            'phone',
+            { 
+              rules: [
+                { required: true, message: '手机号不能为空' },
+                {len:11,message: '请输入手机号',},
+                {pattern:new RegExp(/\d{11}/g),message:'手机号只能为11位数字'}
+              ] 
+            }
+          ]"
+          placeholder="请输入手机号"
         >
           <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
-      <a-form-item>
-        <a-input
-         size='large'
+ <a-form-item>
+        <a-input  @keyup.enter.native="handleLogin"
+          size="large"
           v-decorator="[
-          'password',
-          { rules: [{ required: true, message: '请输入密码' }] },
-        ]"
+            'password',
+            { 
+              rules: [
+                { required: true,message: '请输入密码'},
+                {min:6,message: '密码不少于6位',},
+              ] 
+            },
+           ]"
           type="password"
-          placeholder="密码"
+          placeholder="请输入密码"
         >
           <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" @click="handleSubmit"
-         class="form-btn" size='large'>登 录</a-button>
-        <span class="method">忘记密码</span> |
-        <span class="method">注册</span>
+        <a-button type="primary" @click="handleLogin"  class="form-btn" size="large">登 录</a-button>
+        <div style="paddingLeft:40px">
+          <a-popover
+            style="width: 500px"
+            title="请通知管理员"
+            trigger="hover"
+            :visible="hovered"
+            @visibleChange="handleHoverChange"
+          >
+            <div slot="content">177 7888 8845</div>
+            <span class="method">忘记密码?</span>
+          </a-popover>|
+          <router-link to="register" tag="span" class="method">注册一个新账号</router-link>
+        </div>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script>
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
-      form: this.$form.createForm(this, { name: "normal_login" })
+      hovered: false,
+      form: this.$form.createForm(this, { name: "sign" })
     };
   },
 
@@ -56,16 +77,22 @@ export default {
   mounted() {},
 
   methods: {
-    handleSubmit(e) {
+    ...mapActions(['getUserLogin']),
+    handleHoverChange(visible) {
+      this.clicked = false;
+      this.hovered = visible;
+    },
+    handleLogin(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          // console.log( values);
-          if(values.userName==='admin'&&values.password==='123456'){
+          console.log( values);
+          this.getUserLogin(values).then(()=>{
+            this.form.resetFields()
             this.$router.replace({path:'/home'})
-          }else{
-            message.error('用户名或密码错误')
-          }
+          }).catch(()=>{
+            console.log('用户登陆失败')
+          })
         }
       });
     }

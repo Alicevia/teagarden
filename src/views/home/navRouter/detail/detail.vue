@@ -1,7 +1,7 @@
 <template>
   <div class="content-item">
     <div class="current-position">
-      <span @click="goBack" class="iconfont" style="cursor:pointer">当前位置: 列表/详情页</span>
+      <span @click="goBack" class="iconfont" style="cursor:pointer">&#xe62c;当前位置: 列表/详情页</span>
       <div class="detail-operate">
          <a-button type="primary" @click="showRemarkDialog"
           style="borderRadius:16px;backgroundColor:#EEEEEE;color:#000000;border:none">
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="detail-container">
-      <NatureGeoForm></NatureGeoForm>
+      <NatureGeoForm :tea='detail'></NatureGeoForm>
       <Comment commentTitle="用户备注"></Comment>  
       <Comment  commentTitle="专家建议"></Comment>  
         <RemarkDialog></RemarkDialog>

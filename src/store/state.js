@@ -1,3 +1,11 @@
 export default {
-    remarkFlag:false
+    remarkFlag:false,
+    teaInfo:[],
+    userToken:'',
+
+    // admin------------------
+    allUserApplyLogin:{
+      list:[],
+      total:0
+    }
 }

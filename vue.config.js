@@ -4,6 +4,7 @@ function resolve(dir) {
 }
 module.exports = {
   // publicPath:'/jimao/',//history hash
+  publicPath:'./',
   lintOnSave: true,
   chainWebpack: (config) => {
     config.resolve.alias

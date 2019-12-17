@@ -13,6 +13,10 @@
       :dataSource="tableData"
       class="table-header"
     >
+      <template slot="sort" slot-scope="record,item,index">
+        <span>{{index}}</span>
+      </template>
+
       <template slot="action" slot-scope="text">
         <slot name="action"></slot>
       </template>

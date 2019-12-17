@@ -60,7 +60,7 @@ export default {
       console.log(broken);
     },
     changeRouter(path){
-    console.log(this.$route)
+    // console.log(this.$route)
       
 
       this.$router.push({path})

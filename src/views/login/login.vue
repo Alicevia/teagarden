@@ -67,6 +67,9 @@ export default {
         width 100%
       .method
         color #00B57E  
+        cursor pointer
+        margin 0 10px
+       
 
     
 
