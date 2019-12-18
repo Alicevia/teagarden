@@ -7,3 +7,7 @@ export const CLEAR_USER_TOKEN = 'CLEAR_USER_TOKEN'
 
 // admin-----------
 export const GET_ALL_USER_APPLAY_INFO ='GET_ALL_USER_APPLAY_INFO'
+
+
+// user------------------------
+export const GET_USER_INFO = 'GET_USER_INFO'

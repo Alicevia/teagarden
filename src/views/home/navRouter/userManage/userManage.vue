@@ -1,26 +1,34 @@
 <template>
-  <TableShow :columns="columns" :tableData="allUserApplyLogin.list">
+  <TableShow :columns="columns" :tableData="allUserApplyLogin.list" :pagination="pagination">
     <span slot="title">当前页面:用户管理</span>
     <!-- <span slot="sort" slot-scope="record">1</span> -->
     <div slot="opreate">
-      <a-select defaultValue="a1" style="width: 200px" ref="select">
-        <a-select-option
-          v-for="i in 25"
-          :key="(i + 9).toString(36) + i"
-        >{{(i + 9).toString(36) + i}}</a-select-option>
-      </a-select>
-      <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px" />
-      <a-button style="backgroundColor:#00B57E;color:white">查询</a-button>
+      <a-input-search
+        v-model="searchApplyUser"
+        placeholder="请输入手机号"
+        style="width: 200px;margin:0 10px"
+      />
+      <a-button style="backgroundColor:#00B57E;color:white" @click="searchApplyList">查询</a-button>
     </div>
-    <a-switch slot="action" checkedChildren="已同意" unCheckedChildren="待审核" :disabled='false' />
+    <template #action="{record:{id}}">
+      <a-switch @click="passApply(id)" checkedChildren="已同意" unCheckedChildren="待审核" />
+    </template>
   </TableShow>
 </template>
 
 <script>
 import TableShow from "home/components/tableShow";
 import { mapActions, mapState } from "vuex";
+import { reqPassApply } from "@/api";
+import utils from "@/utils";
+import { message } from "ant-design-vue";
 const columns = [
-  { align: "center", title: "序号",key:'sort',scopedSlots: { customRender: "sort" } },
+  {
+    align: "center",
+    title: "序号",
+    key: "sort",
+    scopedSlots: { customRender: "sort" }
+  },
   { align: "center", title: "角色", dataIndex: "roleName", key: "roleName" },
   { align: "center", title: "手机号", dataIndex: "phone", key: "phone" },
   {
@@ -34,20 +42,90 @@ export default {
   data() {
     return {
       columns,
+      searchApplyUser: "",
+      current: 1,
+      pageSize: 10
     };
   },
 
   computed: {
-    ...mapState(['allUserApplyLogin']),
-
+    ...mapState(["allUserApplyLogin"]),
+    pagination: {
+      get() {
+        return {
+          defaultPageSize: 10,
+          size: "middle",
+          position: "bottom",
+          current: this.current,
+          pageSize: this.pageSize,
+          // showSizeChanger:true,
+          onChange: this.changePage,
+          total: this.allUserApplyLogin.total || 0
+        };
+      }
+    }
   },
   created() {
-    this.getAllUserApplyLoginInfo({ page: 1, size: 10 });
+    this.getAllUserApplyLoginInfo({
+      page: 1,
+      size: 10,
+      phone: this.searchApplyUser
+    });
   },
   mounted() {},
 
   methods: {
-    ...mapActions(["getAllUserApplyLoginInfo"])
+    ...mapActions(["getAllUserApplyLoginInfo"]),
+    // 改变页码
+    changePage(page, pageSize) {
+      this.current = page;
+      this.getAllUserApplyLoginInfo({
+        page,
+        size: pageSize,
+        phone: this.searchApplyUser
+      });
+    },
+    // 通过登录申请
+    async passApply(id) {
+      console.log(id);
+      let { data } = await reqPassApply({ userId: id });
+      utils.detailBackCode(data, { s: "已通过审核" }, () => {
+        let { total } = this.allUserApplyLogin;
+        if ((total - 1) / 10 === this.current - 1) {
+          this.current=this.current-1
+        }
+        console.log(total, this.current);
+        this.getAllUserApplyLoginInfo({
+          page: this.current,
+          size: this.pageSize,
+          phone: this.searchApplyUser
+        });
+      });
+    },
+    // 搜索
+    searchApplyList() {
+      if (this.searchApplyUser === "") {
+        message.warning("请输入查询条件");
+        return;
+      }
+      this.getAllUserApplyLoginInfo({
+        page: this.current,
+        size: this.pageSize,
+        phone: this.searchApplyUser
+      });
+    }
+  },
+  watch: {
+    searchApplyUser(value) {
+      console.log(value);
+      if (value === "") {
+        this.getAllUserApplyLoginInfo({
+          page: 1,
+          size: 10,
+          phone: ""
+        });
+      }
+    }
   },
 
   components: { TableShow }

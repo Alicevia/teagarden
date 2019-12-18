@@ -5,16 +5,25 @@ export default {
     //     state.address = address
     // },
     // 显示与隐藏remarkdialog
+    [TYPES.CHANGE_REMARK_FLAG](state){
+      let {remarkFlag} = state
+      state.remarkFlag = !remarkFlag
+    },
+
+    // user-------------------------
+    [TYPES.GET_USER_INFO](state,payload){
+      state.userInfo = payload
+    },
     [TYPES.UPDATE_USER_TOKEN](state,payload){
       state.userToken = payload
     },
     [TYPES.CLEAR_USER_TOKEN](state){
       state.userToken = ''
     },
-    [TYPES.CHANGE_REMARK_FLAG](state){
-      let {remarkFlag} = state
-      state.remarkFlag = !remarkFlag
-    },
+
+
+    
+
     [TYPES.GET_TEA_INFO](state,payload){
       state.teaInfo = payload
     },

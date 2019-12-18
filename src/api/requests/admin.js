@@ -11,3 +11,11 @@ export function reqAllUserLoginStatus(data){
     flag:true
   })
 }
+// 审核通过
+export const reqPassApply = (data)=>axios({
+  url:'admin/userCheck',
+  data,
+  method:'put',
+  flag:true
+})
+

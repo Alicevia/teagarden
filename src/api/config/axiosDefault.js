@@ -5,6 +5,7 @@ import router from '@/router'
 let instance1 = axios.create({
   // baseURL:'https://www.cluster-dt.com/simote/',
   baseURL: 'http://192.168.50.163:8090/smtApi/',
+  // baseURL: 'http://192.168.50.30:8090/smtApi/',
   timeout: 10000
 })
 

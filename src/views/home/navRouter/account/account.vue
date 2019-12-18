@@ -4,45 +4,53 @@
       <span class="iconfont" style="cursor:pointer">当前位置: 账户中心</span>
     </div>
     <div class="account">
-      <a-form :form="form" @submit="handleSubmit">
+      <a-form :form="form">
         <a-form-item v-bind="formItemLayout" label="头像">
           <a-avatar
             style="marginLeft:35%;width:60px;height:60px"
             src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
           />
         </a-form-item>
-        <a-form-item v-bind="formItemLayout" label="身份">
+        <a-form-item v-bind="formItemLayout" label="姓名">
           <a-input v-decorator="[
-            'identity']" />
+            'name',{initialValue:userInfo.name}]" />
         </a-form-item>
-
+        <a-form-item v-bind="formItemLayout" label="身份">
+          <a-input :value="roleId" disabled />
+        </a-form-item>
         <a-form-item v-bind="formItemLayout" label="密码">
-          <a-input  v-decorator="[
-          'password',
-        ]" type="password" />
-        <span class="password" @click="modiPassword">修改密码</span>
+          <a-input value="******" disabled></a-input>
+          <span class="password" @click="modiPassword">修改密码</span>
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="手机号">
-          <a-input />
+          <a-input :value="userInfo.phone" disabled />
+          <span class="password" @click="modiPhone">更换手机</span>
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="地址">
-          <a-input />
+          <a-input v-decorator="[
+            'address',{initialValue:userInfo.address}]" />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="公司">
-          <a-input />
+          <a-input v-decorator="[
+            'company',{initialValue:userInfo.company}]" />
         </a-form-item>
-
         <a-form-item v-bind="tailFormItemLayout">
-          <a-button style="width:100%"  type="primary">保存</a-button>
+          <a-button style="width:100%" type="primary" @click="handleAccountInfo">保存</a-button>
         </a-form-item>
       </a-form>
     </div>
-  <ChangePassword ref="pw"></ChangePassword>
+    <ChangePassword ref="pw"></ChangePassword>
+    <ChangePhone ref="ph"></ChangePhone>
   </div>
 </template>
 
 <script>
-import ChangePassword from 'home/components/changePassword'
+import ChangePassword from "home/components/changePassword";
+import ChangePhone from "home/components/changePhone";
+
+import { mapActions, mapState } from "vuex";
+import { reqModiUserInfo } from "@/api";
+import utils from "../../../../utils";
 export default {
   data() {
     return {
@@ -61,21 +69,50 @@ export default {
             offset: 8
           }
         }
-      }
+      },
+      form: this.$form.createForm(this, { name: "account" })
     };
   },
-  beforeCreate() {
-    this.form = this.$form.createForm(this, { name: "account" });
+  created() {
+    this.getUserInfo();
+  },
+  computed: {
+    ...mapState(["userInfo"]),
+    roleId: {
+      get() {
+        switch (this.userInfo.roleId || "") {
+          case 1:
+            return "超级管理员";
+            break;
+          case 2:
+            return "管理员";
+            break;
+          case 3:
+            return "专家";
+            break;
+          default:
+            return "普通会员";
+            break;
+        }
+      }
+    }
   },
   methods: {
-    handleSubmit(e) {
+    ...mapActions(["getUserInfo"]),
+    // 修改个人信息
+    handleAccountInfo(e) {
       e.preventDefault();
-      this.form.validateFieldsAndScroll((err, values) => {
+      this.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          let { data } = await reqModiUserInfo(values);
+          console.log(data);
+          utils.detailBackCode(data, { s: "修改个人信息成功" }, () => {
+            this.getUserInfo();
+          });
         }
       });
     },
+
     handleConfirmBlur(e) {
       const value = e.target.value;
       this.confirmDirty = this.confirmDirty || !!value;
@@ -106,11 +143,15 @@ export default {
       }
       this.autoCompleteResult = autoCompleteResult;
     },
-    modiPassword(){
-      this.$refs['pw'].showModal()
+
+    modiPassword() {
+      this.$refs["pw"].showModal();
+    },
+    modiPhone() {
+      this.$refs["ph"].showModal();
     }
   },
-  components:{ChangePassword}
+  components: { ChangePassword, ChangePhone }
 };
 </script>
 <style lang='stylus' scoped>

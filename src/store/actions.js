@@ -2,14 +2,23 @@ import * as TYPES from './mutations-types'
 import * as allReq from '@/api'
 import { message } from 'ant-design-vue'
 
-function detailBackCode(data,status,callback){
-  let {succeed} = data
-  let {s,e='服务器错误'} = status
+function detailBackCode(data,status={},callback){
+  let {succeed,code} = data
+  let {s='',e='服务器错误'} = status
   if (succeed) {
-    message.success(s)
-    callback()
+    if (s) {
+      message.success(s)
+    }
+    callback && callback(data.data)
   }else{
-    message.error(e)
+    switch (code) {
+      case -6:
+        message.error('手机号已经注册，请更换手机')
+        break;
+      default:
+        message.error(e)
+        break;
+    }
   }
 
 }
@@ -19,14 +28,22 @@ export default {
   // },
 
   // 用户------------------------------------------------
+  // 用户信息
+  async getUserInfo({commit}){
+    let {data} = await allReq.reqUserInfo()
+    detailBackCode(data,{},(payload)=>{
+      commit(TYPES.GET_USER_INFO,payload)
+    })
+
+  },
   // 用户注册
   async getUserRegister({},payload){
-    let {data:{succeed}} = await allReq.reqUserRegister(payload)
-    console.log(result)
+    let {data} = await allReq.reqUserRegister(payload)
+    let {succeed,code} = data
     if (succeed) {
-      message.success('注册成功')
+      message.success('注册成功,管理员审核中')
     }else{
-      message.error('注册失败，请稍后再试')
+      detailBackCode(data)
     }
   },
   // 用户登陆
@@ -49,7 +66,7 @@ export default {
   // 退出
   async getUserLogout({commit}){
     let {data}  = await allReq.reqUserLogout()
-    detailBackCode(data,{s:'退出成功',e:'服务器错误'},(payload)=>{
+    detailBackCode(data,{s:'退出成功',e:'服务器错误'},()=>{
       localStorage.removeItem('user-token')
       commit(TYPES.CLEAR_USER_TOKEN)
       return Promise.resolve()
@@ -64,17 +81,10 @@ export default {
   deleteUserToken({commit}){
     commit(TYPES.CLEAR_USER_TOKEN)
   },
-
-
-
-
   // 获取所有茶园信息
   getTeaInfo({ commit }, payload) {
     commit(TYPES.GET_TEA_INFO, payload)
   },
-
-
-
 
 
 
@@ -84,7 +94,7 @@ export default {
     let {data:{succeed,data}} = await allReq.reqAllUserLoginStatus(payload)
     if (succeed) {
       if (data.total===0) {
-        message.warning('当前无用户申请审核')
+        message.warning('当前无用户')
         return
       }
       commit(TYPES.GET_ALL_USER_APPLAY_INFO,data)

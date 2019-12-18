@@ -7,5 +7,8 @@ export default {
     allUserApplyLogin:{
       list:[],
       total:0
-    }
+    },
+    userApplyPage:1,
+    // user--------------------
+    userInfo:{}
 }

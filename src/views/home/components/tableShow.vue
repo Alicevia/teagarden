@@ -14,11 +14,10 @@
       class="table-header"
     >
       <template slot="sort" slot-scope="record,item,index">
-        <span>{{index}}</span>
+        <span>{{index+1}}</span>
       </template>
-
-      <template slot="action" slot-scope="text">
-        <slot name="action"></slot>
+      <template slot="action" slot-scope="record,item,index">
+        <slot name="action" :record='record' ></slot>
       </template>
       <template slot="role" slot-scope="text">
         <slot name="role"></slot>
@@ -26,25 +25,24 @@
     </a-table>
   </div>
 </template>
-
 <script>
 export default {
-  props: ["rowSelection", "columns", "tableData", "customRow"],
+  props: ["rowSelection", "columns", "tableData", "customRow",'pagination'],
   data() {
     return {};
   },
   computed: {
-    pagination: {
-      get() {
-        return {
-          defaultPageSize: 10,
-          size: "middle",
-          position: "bottom"
-          // showSizeChanger:true,
-          // onChange: this.changePage
-        };
-      }
-    }
+    // pagination: {
+    //   get() {
+    //     return {
+    //       defaultPageSize: 10,
+    //       size: "middle",
+    //       position: "bottom",
+    //       // showSizeChanger:true,
+    //       onChange: this.changePage
+    //     };
+    //   }
+    // }
     // customRow(record) {
     //   return record => {
     //     return {
@@ -61,7 +59,8 @@ export default {
   mounted() {},
 
   methods: {
-    onSearch(value) {}
+    onSearch(value) {},
+  
   },
 
   components: {}
