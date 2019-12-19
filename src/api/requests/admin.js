@@ -18,4 +18,24 @@ export const reqPassApply = (data)=>axios({
   method:'put',
   flag:true
 })
-
+// 获取所有的用户信息
+export const reqGetAllUserRoleInfo = (data)=>axios({
+  url:'admin/findAllUserRole',
+  data,
+  method:'get',
+  flag:true
+})
+// 修改个人的角色
+export const reqModiUserRole = (data)=>axios({
+  url:'admin/updateUserRole',
+  method:'put',
+  data,
+  flag:true
+})
+// 重置用户密码
+export const reqResetPassword =(data)=>axios({
+  url:'admin/checkPassword',
+  method:'put',
+  data,
+  flag:true
+})

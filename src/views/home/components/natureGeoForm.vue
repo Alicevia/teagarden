@@ -27,7 +27,7 @@
                   initialValue:tea[item[0]]
                 },
               ]"
-              placeholder="placeholder"
+              :placeholder='`请输入${item[1]}`'
             />
           </a-form-item>
         </a-col>
@@ -58,7 +58,7 @@
                   ],
                 },
               ]"
-              placeholder="placeholder"
+              :placeholder='`请输入${item[1]}`'
             />
           </a-form-item>
         </a-col>
@@ -104,7 +104,7 @@ export default {
         quickActingK: "速效K(mg/kg)",
         n: "全N(g/kg)",
         p: "全P(g/kg)",
-        K: "全K(g/kg)",
+        k: "全K(g/kg)",
         terrain: "地形地貌",
         soilType: "土壤类型",
         altitude: "海拔",

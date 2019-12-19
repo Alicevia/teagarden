@@ -85,21 +85,22 @@ export default {
         phone: this.searchApplyUser
       });
     },
-    // 通过登录申请
+    // 通过申请
     async passApply(id) {
-      console.log(id);
       let { data } = await reqPassApply({ userId: id });
       utils.detailBackCode(data, { s: "已通过审核" }, () => {
         let { total } = this.allUserApplyLogin;
         if ((total - 1) / 10 === this.current - 1) {
-          this.current=this.current-1
+          this.current = this.current - 1;
         }
-        console.log(total, this.current);
-        this.getAllUserApplyLoginInfo({
-          page: this.current,
-          size: this.pageSize,
-          phone: this.searchApplyUser
-        });
+        let timer = setTimeout(() => {
+          clearTimeout(timer);
+          this.getAllUserApplyLoginInfo({
+            page: this.current,
+            size: this.pageSize,
+            phone: this.searchApplyUser
+          });
+        }, 1000);
       });
     },
     // 搜索
@@ -117,11 +118,10 @@ export default {
   },
   watch: {
     searchApplyUser(value) {
-      console.log(value);
       if (value === "") {
         this.getAllUserApplyLoginInfo({
           page: 1,
-          size: 10,
+          size: this.pageSize,
           phone: ""
         });
       }

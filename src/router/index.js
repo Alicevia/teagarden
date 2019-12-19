@@ -39,8 +39,9 @@ const routes = [
         path:'detail',
         name:'detail',
         component:()=>import('home/navRouter/detail/detail.vue'),
+        // component:Detail,
         // props: (route) => ({ detail: JSON.parse(route.params.detail) }) 
-        props: (route) => ({ detail:route.query }) 
+        // props: (route) => ({ detail:route.query }) 
         // props:true
       },
       {

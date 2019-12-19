@@ -1,35 +1,45 @@
 <template>
-  <TableShow :columns="columns" :tableData="tableData">
+  <TableShow :columns="columns" :tableData="allUserRoleInfo.list" :pagination='pagination'>
     <span slot="title">当前页面:权限管理</span>
     <div slot="opreate">
-      <a-select defaultValue="a1" style="width: 200px" >
-        <a-select-option
-          v-for="i in 25"
-          :key="(i + 9).toString(36) + i"
-        >{{(i + 9).toString(36) + i}}</a-select-option>
+      <a-select   placeholder="请选择角色"  style="width: 200px"  v-model="roleId" >
+        <a-select-option  v-for="(item,index) in ['管理员','专家','普通用户','所有用户']" :key="index+2" >{{item}}</a-select-option>
       </a-select>
-      <a-input-search placeholder="搜索" style="width: 200px;margin:0 10px" />
-      <a-button style="backgroundColor:#00B57E;color:white">查询</a-button>
+      <!-- 1 超管 2管理 3专家 4用户 -->
+      <a-input-search v-model="name" placeholder="搜索" style="width: 200px;margin:0 10px" />
+      <a-button style="backgroundColor:#00B57E;color:white" @click="searchUserRole">查询</a-button>
     </div>
-    <a-button slot="action" size="default" style="backgroundColor:#399DCC;color:white">初始化密码</a-button>
-    <template slot="role">
-      <a-select defaultValue="普通用户" style="width: 200px">
-        <a-select-option  v-for="(item,index) in ['普通用户','专家','管理员']" :key="index">{{item}}</a-select-option>
+    <template #action='{record}'>
+    <a-button size="default" style="backgroundColor:#399DCC;color:white" :disabled='record.roleId===1'  @click="resetUserPassword(record.id)">初始化密码</a-button>
+
+    </template>
+    <template #role='{record}'>
+      <a-select @select="saveUserRoleId" :disabled='record.roleId===1'   style="width: 200px" :defaultValue='record.roleId===1?"超级管理员":record.roleId' >
+        <a-select-option  v-for="(item,index) in ['管理员','专家','普通用户']" :key="index+2">{{item}}</a-select-option>
       </a-select>
-      <a-button type="primary" style="marginLeft:10px">提交</a-button>
+      <a-button type="primary" style="marginLeft:10px" :disabled='record.roleId===1'  @click="changeUserRole(record.id)">提交</a-button>
     </template>
   </TableShow>
 </template>
 
 <script>
 import TableShow from "home/components/tableShow";
+import { mapActions, mapState } from 'vuex';
+import {reqModiUserRole,reqResetPassword} from '@/api'
+import utils from '../../../../utils';
 const columns = [
-  { align: "center", title: "序号", dataIndex: "id", key: "id" },
+  // { align: "center", title: "序号", dataIndex: "id", key: "id" },
+    {
+    align: "center",
+    title: "序号",
+    key: "sort",
+    scopedSlots: { customRender: "sort" }
+  },
   { align: "center", title: "名称", dataIndex: "name", key: "name" },
   {
     align: "center",
     title: "角色",
-    dataIndex: "role",
+    // dataIndex: "role",
     key: "role",
     scopedSlots: { customRender: "role" }
   },
@@ -41,40 +51,104 @@ const columns = [
     scopedSlots: { customRender: "action" }
   }
 ];
-
-const tableData = [];
-for (let i = 0; i < 46; i++) {
-  tableData.push({
-    id: i,
-    name: `张三 ${i}`,
-    role: '普通用户',
-    phone: 17787887888 + i
-  });
-}
 export default {
   data() {
     return {
       columns,
-      tableData
+
+      current: 1,
+      pageSize: 10,
+      name: "",
+      roleId:undefined,
+
+      
     };
   },
 
-  computed: {},
-
+  computed: {
+    ...mapState(['allUserRoleInfo']),
+  
+     pagination: {
+      get() {
+        return {
+          defaultPageSize: 10,
+          size: "middle",
+          position: "bottom",
+          current: this.current,
+          pageSize: this.pageSize,
+          // showSizeChanger:true,
+          onChange: this.changePage,
+          total: this.allUserRoleInfo.total || 0
+        };
+      }
+    },
+  },
+  created(){
+    this.getAllUserRoleInfo({
+      page:this.current,
+      size:this.pageSize,
+      name:this.name,
+      roleId:this.roleId
+    })
+  },
   mounted() {},
 
   methods: {
-    stopClick(e){
-      //   var e=window.event || arguments.callee.caller.arguments[0];
-      // e.preventDefault();
-      // e.stopPropagation();
-      console.log(e)
+    ...mapActions(['getAllUserRoleInfo']),
+    // 重置密码
+    async resetUserPassword(id){
+      let {data} = await reqResetPassword({userId:id})
+      utils.detailBackCode(data,{s:'初始化密码成功'})
     },
-    handleChange(){
-     var e=window.event || arguments.callee.caller.arguments[0];
-      e.preventDefault();
-      e.stopPropagation();
-      console.log(e)
+    saveUserRoleId(value){
+      this.payload = {
+        roleId:value
+      }
+    },
+    // 修改用户角色
+    async changeUserRole(id){
+      this.payload.userId  = id
+      let {data} = await reqModiUserRole(this.payload)
+      utils.detailBackCode(data,{s:'修改角色成功'},()=>{
+        this.payload = null
+      })
+      
+    },
+     // 改变页码
+    changePage(page, pageSize) {
+      this.current = page;
+      this.getAllUserRoleInfo({
+        page,
+        size: pageSize,
+        name: this.name,
+        roleId:this.roleId
+      });
+    },
+    // 查询
+    searchUserRole(){
+      // console.log(this.roleId)
+      // return 
+      this.current = 1
+      this.getAllUserRoleInfo({
+        page: this.current,
+        size: this.pageSize,
+        name: this.name,
+        roleId:this.roleId
+      });
+    }
+  },
+  watch:{
+    roleId(value){
+      if (value===5) {
+        this.name=''
+        this.roleId=undefined
+         this.getAllUserRoleInfo({
+          page: 1,
+          size: this.pageSize,
+          name: this.name,
+          roleId:this.roleId
+        });
+      }
     }
   },
 

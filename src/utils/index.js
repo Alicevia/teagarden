@@ -1,4 +1,4 @@
-import {message} from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 
 let utils = function (params) {
   function queryURLParameter(str) {
@@ -20,12 +20,12 @@ let utils = function (params) {
     return new File([u8arr], filename, { type: mime });
   }
 
-  
-  function blobToFile(blob, fileName){//blob转file
-    blob.lastModifiedDate =new Date();
+
+  function blobToFile(blob, fileName) {//blob转file
+    blob.lastModifiedDate = new Date();
     blob.name = fileName;
     return blob;
-}
+  }
 
 
   function getImgToBase64(url, callback) {//将js图片转换为Base64
@@ -55,41 +55,48 @@ let utils = function (params) {
     return new Blob([u8arr], { type: mime });
   }
 
-  function blobToDataURL(blob, callback) { //blob转base64
-    let a = new FileReader();
-    a.onload = function (e) { callback(e.target.result); }
-    a.readAsDataURL(blob);
+  async function blobToDataURL(blob) { //blob转base64
+    return new Promise(resolve=>{
+      var a = new FileReader();
+      a.readAsDataURL(blob);//读取文件保存在result中
+      a.onload = function (e) {
+        resolve(e.target.result);//读取的结果在result中
+      }
+    })
+
+
   }
   // 一维数组转二维数组
-  function changeAry(array,num){
+  function changeAry(array, num) {
     let ary = []
     let temp = []
-    if (!array||array.length===0) {
+    if (!array || array.length === 0) {
       return ary
     }
-    
+
     for (let index = 0; index < array.length; index++) {
       temp.push(array[index])
-      if (index%(num)===(num-1)) {
+      if (index % (num) === (num - 1)) {
         ary.push(temp)
-        temp=[]
+        temp = []
       }
     }
-    if (temp.length>0) {
+    if (temp.length > 0) {
       ary.push(temp)
     }
-    temp=null
+    temp = null
     return ary
   }
-  function detailBackCode(data,status={},callback){
-    let {succeed,code} = data
-    let {s='',e='服务器错误'} = status
+
+  function detailBackCode(data, status = {}, callback) {
+    let { succeed, code } = data
+    let { s = '', e = '服务器错误' } = status
     if (succeed) {
       if (s) {
         message.success(s)
       }
-      callback && callback()
-    }else{
+      callback && callback(data.data)
+    } else {
       switch (code) {
         case -6:
           message.error('手机号已经注册，请更换手机')
@@ -99,17 +106,17 @@ let utils = function (params) {
           break;
       }
     }
-  
+
   }
 
 
-  
+
 
 
 
 
   return {
-    queryURLParameter, dataURLtoFile,changeAry,detailBackCode
+    queryURLParameter, dataURLtoFile, changeAry, detailBackCode, blobToDataURL
   }
 }()
 

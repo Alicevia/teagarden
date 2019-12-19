@@ -56,12 +56,10 @@ export default {
     }
   },
   created(){
-    this.getTeaInfo(this.dataResource)
     // console.log(this.dataResource)
   },
   activated() {},
   methods: {
-    ...mapActions(['getTeaInfo'])
   },
   components: {
     Header,

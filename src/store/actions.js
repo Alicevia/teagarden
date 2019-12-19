@@ -58,8 +58,10 @@ export default {
       if (code===-13) {
         message.error(status)
         return
+      }else if(code==-10){
+        message.error(status)
+        return
       }
-      message.error('登录失败')
       return Promise.reject()
     }
   },
@@ -81,14 +83,26 @@ export default {
   deleteUserToken({commit}){
     commit(TYPES.CLEAR_USER_TOKEN)
   },
+
+  // 专家建议对话框
+  toggleAdviseDialog({commit}){
+    commit(TYPES.CHANGE_REMARK_FLAG)
+  },
+
+
+  // tea-------------------------------------
   // 获取所有茶园信息
-  getTeaInfo({ commit }, payload) {
-    commit(TYPES.GET_TEA_INFO, payload)
+  async getTeaInfo({ commit }, payload) {
+    let {data}  = await allReq.reqGetTeaGardenInfo(payload)
+    detailBackCode(data,{},(data)=>{
+      commit(TYPES.GET_TEA_INFO, data)
+    })
   },
 
 
 
-  // admin--------------------------
+
+  // 管理员--------------------------
   // 获取正在申请登陆权限的用户
   async getAllUserApplyLoginInfo({commit},payload){
     let {data:{succeed,data}} = await allReq.reqAllUserLoginStatus(payload)
@@ -99,5 +113,13 @@ export default {
       }
       commit(TYPES.GET_ALL_USER_APPLAY_INFO,data)
     }
+  },
+  // admin------------------------
+  // 获取所有用户的角色信息
+  async getAllUserRoleInfo({commit},payload){
+    let {data} = await allReq.reqGetAllUserRoleInfo(payload)
+    detailBackCode(data,{},(payload)=>{
+      commit(TYPES.GET_ALL_USER_ROLE_INFO,payload)
+    })
   }
 }

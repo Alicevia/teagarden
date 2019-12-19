@@ -32,17 +32,26 @@ import RemarkDialog from 'home/components/remarkDialog'
 import NatureGeoForm from 'home/components/natureGeoForm'
 import Comment from 'home/components/comment'
 import * as TYPES from '@/store/mutations-types'
+import {reqGetTeaDetail} from '@/api'
+import utils from '../../../../utils'
 export default {
-  props: ["detail"],
+  // props: ["detail"],
   data() {
-    return {};
+    return {
+      detail:''
+    };
   },
 
   computed: {},
 
   mounted() {},
-  activated() {
-    console.log(this.detail)
+  async activated() {
+    // console.log(this.detail)
+    let {data} = await reqGetTeaDetail({teaGardenId:this.$route.query.id})
+    utils.detailBackCode(data,{},(payload)=>{
+      console.log(payload)
+      this.detail = payload
+    })
   },
 
   methods: {

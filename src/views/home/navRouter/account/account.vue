@@ -8,7 +8,7 @@
         <a-form-item v-bind="formItemLayout" label="头像">
           <a-avatar
             style="marginLeft:35%;width:60px;height:60px"
-            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            :src="avatar"
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="姓名">
@@ -95,6 +95,16 @@ export default {
             break;
         }
       }
+    },
+    async avatar(){
+      if (!this.userInfo.headPicture) {
+        return 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+      }else{
+          let a = await utils.blobToDataURL(this.userInfo.headPicture)
+          console.log(a)
+          return 
+    
+      }
     }
   },
   methods: {
@@ -150,6 +160,9 @@ export default {
     modiPhone() {
       this.$refs["ph"].showModal();
     }
+  },
+  filters:{
+
   },
   components: { ChangePassword, ChangePhone }
 };

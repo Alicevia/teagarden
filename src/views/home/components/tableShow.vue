@@ -19,8 +19,8 @@
       <template slot="action" slot-scope="record,item,index">
         <slot name="action" :record='record' ></slot>
       </template>
-      <template slot="role" slot-scope="text">
-        <slot name="role"></slot>
+      <template slot="role" slot-scope="record">
+        <slot name="role" :record='record'></slot>
       </template>
     </a-table>
   </div>
@@ -32,28 +32,6 @@ export default {
     return {};
   },
   computed: {
-    // pagination: {
-    //   get() {
-    //     return {
-    //       defaultPageSize: 10,
-    //       size: "middle",
-    //       position: "bottom",
-    //       // showSizeChanger:true,
-    //       onChange: this.changePage
-    //     };
-    //   }
-    // }
-    // customRow(record) {
-    //   return record => {
-    //     return {
-    //       on: {
-    //         click: e => {
-    //           this.$router.push({ path: "/home/detail", query: record });
-    //         }
-    //       }
-    //     };
-    //   };
-    // }
   },
 
   mounted() {},

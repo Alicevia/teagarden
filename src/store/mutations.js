@@ -20,20 +20,25 @@ export default {
     [TYPES.CLEAR_USER_TOKEN](state){
       state.userToken = ''
     },
-
-
-    
-
+    // tea--------------------------------
     [TYPES.GET_TEA_INFO](state,payload){
-      state.teaInfo = payload
+      let {list=[],total} = payload
+      state.teaInfo.list = list
+      state.teaInfo.total = total
     },
 
 
 
-    // admin---------
+    // 管理员---------
     [TYPES.GET_ALL_USER_APPLAY_INFO](state,payload){
       let {list=[],total} = payload
       state.allUserApplyLogin.list = list
       state.allUserApplyLogin.total = total
-    }
+    },
+    // admin=----------------------
+    [TYPES.GET_ALL_USER_ROLE_INFO](state,payload){
+      let {list=[],total} = payload
+      state.allUserRoleInfo.list = list
+      state.allUserRoleInfo.total = total
+    },
 }
