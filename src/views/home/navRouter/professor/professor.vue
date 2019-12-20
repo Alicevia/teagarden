@@ -1,28 +1,38 @@
 <template>
-<div>
-  <TableShow :columns="columns" :tableData="teaInfo.list" :customRow='customRow' :pagination='pagination'>
-    <span slot="title">当前页面:专家</span>
-    <div slot="opreate">
- <a-input-search v-model="name" placeholder="请输入茶园名" @keyup.enter="searchTea" style="width: 200px" />
-      <a-button style="margin:0 0px 0 10px" @click="searchTea">查询</a-button>
-      <!-- <a-button type="primary">导出</a-button> -->
-    </div>
-    <a-button slot="action" type="primary" style="borderRadius:16px" @click.stop="advisePro">
-      <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
-      <span style="marginLeft:6px" @click.stop.native>建议</span>
-    </a-button>
-  </TableShow>
-  <RemarkDialog></RemarkDialog>
-</div>
+  <div>
+    <TableShow
+      :columns="columns"
+      :tableData="teaInfo.list"
+      :customRow="customRow"
+      :pagination="pagination"
+    >
+      <span slot="title">当前页面:专家</span>
+      <div slot="opreate">
+        <a-input-search
+          v-model="name"
+          placeholder="请输入茶园名"
+          @keyup.enter="searchTea"
+          style="width: 200px"
+        />
+        <a-button style="margin:0 0px 0 10px" @click="searchTea">查询</a-button>
+        <!-- <a-button type="primary">导出</a-button> -->
+      </div>
+      <a-button slot="action" type="primary" style="borderRadius:16px" @click.stop="advisePro">
+        <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
+        <span style="marginLeft:6px" @click.stop.native>建议</span>
+      </a-button>
+    </TableShow>
+    <RemarkDialog ></RemarkDialog>
+  </div>
 </template>
 <script>
-  import RemarkDialog from 'home/components/remarkDialog.vue'
+import RemarkDialog from "home/components/remarkDialog.vue";
 
 import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
 const columns = [
   // { align: "center", title: "序号", dataIndex: "id", key: "id" },
-    {
+  {
     align: "center",
     title: "序号",
     key: "sort",
@@ -72,7 +82,7 @@ export default {
         };
       }
     },
-        customRow(record) {
+    customRow(record) {
       return record => {
         return {
           on: {
@@ -90,9 +100,9 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(['getTeaInfo','toggleAdviseDialog']),
+    ...mapActions(["getTeaInfo", "toggleAdviseDialog"]),
     advisePro() {
-      this.toggleAdviseDialog()
+      this.toggleAdviseDialog();
     },
     // 改变页码
     changePage(page, pageSize) {
@@ -129,7 +139,7 @@ export default {
     }
   },
 
-  components: { TableShow,RemarkDialog }
+  components: { TableShow, RemarkDialog }
 };
 </script>
 <style lang='stylus' scoped></style>

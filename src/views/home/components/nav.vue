@@ -9,49 +9,70 @@
     <div class="logo">
       <img class="logo-img" src="../../../assets/images/logo.png" alt />
     </div>
-    <a-menu class="nav-menu" mode="inline" :defaultSelectedKeys='[$route.path]'>
-      <a-menu-item @click="changeRouter('/home/map')" key="/home/map" class="nav-menu-item" style="padding-left:60px" >
-         <span class="iconfont">&#xe600;</span>
-          <span class="nav-text">首页</span>
-      </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/tea')" key="/home/tea" class="nav-menu-item" style="padding-left:60px">
-        <span class="iconfont">&#xe64a;</span>
-        <span class="nav-text">茶园</span>
-      </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/professor')" key="/home/professor" class="nav-menu-item" style="padding-left:60px">
-        <span class="iconfont">&#xe607;</span>
-        <span class="nav-text">专家</span>
-      </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/usermanage')" key="/home/usermanage" class="nav-menu-item" style="padding-left:60px">
-        <span class="iconfont">&#xe616;</span>
-        <span class="nav-text">用户管理</span>
-      </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/admin')" key="/home/admin" class="nav-menu-item" style="padding-left:60px">
-        <span class="iconfont">&#xe601;</span>
-        <span class="nav-text">权限管理</span>
-      </a-menu-item>
-      <a-menu-item @click="changeRouter('/home/data')" key="/home/data" class="nav-menu-item" style="padding-left:60px">
-        <span class="iconfont">&#xe601;</span>
-        <span class="nav-text">数据上传</span>
-      </a-menu-item>
+    <a-menu class="nav-menu" mode="inline" :defaultSelectedKeys="[$route.path]">
+      <template v-for="(item) in navList">
+        <a-menu-item
+          :key="item.path"
+          v-if="item.auth.indexOf(userInfo.roleId)!==-1"
+          @click="changeRouter(item.path)"
+          class="nav-menu-item"
+          style="padding-left:60px"
+        >
+          <span class="iconfont" v-html="item.icon"></span>
+          <span class="nav-text">{{item.title}}</span>
+        </a-menu-item>
+      </template>
     </a-menu>
   </a-layout-sider>
 </template>
 
 <script>
+import { mapState } from "vuex";
+// 1 超管 2管理 3专家 4用户
 export default {
   data() {
     return {
-      selectNav:'home'
+      selectNav: "home",
+      navList: [
+        {
+          path: "/home/map",
+          title: "首页",
+          icon: "&#xe600;",
+          auth: [1, 2, 3, 4]
+        },
+        {
+          path: "/home/tea",
+          title: "茶园",
+          icon: "&#xe64a;",
+          auth: [1, 2, 3, 4]
+        },
+        { path: "/home/professor", title: "专家", icon: "&#xe607;", auth: [3] },
+        {
+          path: "/home/usermanage",
+          title: "用户管理",
+          icon: "&#xe616;",
+          auth: [1, 2]
+        },
+        { path: "/home/admin", title: "权限管理", icon: "&#xe601;", auth: [1] },
+        {
+          path: "/home/data",
+          title: "数据上传",
+          icon: "&#xe601;",
+          auth: [1, 2]
+        }
+      ]
     };
   },
 
-  computed: {},
-  
-  mounted() {
+  computed: {
+    ...mapState(["userInfo"]),
+    check() {
+      return;
+    }
   },
-  activated(){
-  },
+
+  mounted() {},
+  activated() {},
   methods: {
     onCollapse(collapsed, type) {
       console.log(collapsed, type);
@@ -59,11 +80,9 @@ export default {
     onBreakpoint(broken) {
       console.log(broken);
     },
-    changeRouter(path){
-    // console.log(this.$route)
-      
-
-      this.$router.push({path})
+    changeRouter(path) {
+      // console.log(this.$route)
+      this.$router.push({ path });
     }
   },
 
@@ -89,14 +108,13 @@ export default {
     background-color #00B57E
     color white
     .nav-menu-item
-      
       height 50px
       line-height 50px
       &::after
-        border none 
+        border none
         background-color #00B57E
       &:hover
-        color #00B57E 
+        color #00B57E
         background-color #fff
       span
         font-size 18px

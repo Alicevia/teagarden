@@ -6,44 +6,51 @@
     </h2>
     <div
       class="demo-infinite-container"
-      v-infinite-scroll="handleInfiniteOnLoad"
       :infinite-scroll-disabled="busy"
       :infinite-scroll-distance="10"
     >
-      <a-list :dataSource="data">
-        <a-list-item @click="showRemarkDialog"  slot="renderItem" slot-scope="item, index">
-          <a-list-item-meta :description="item.email" >
-            <a slot="title" :href="item.href">{{item.name.last}}</a>
+      <a-list :dataSource="comments">
+        <a-list-item @click="showRemarkDialog(item)" slot="renderItem" slot-scope="item, index">
+          <a-list-item-meta :description="item.title" class="meta-item">
+            <a slot="title" class="username">{{item.userName}}</a>
             <a-avatar
               slot="avatar"
               src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
             />
           </a-list-item-meta>
-          <div>Content</div>
+          <div>{{item.remarksTime}}</div>
         </a-list-item>
         <div v-if="loading && !busy" class="demo-loading-container">
           <a-spin />
         </div>
       </a-list>
     </div>
+    <RemarkDialog ref="commentCheck" :comment='comment' theme="备注查看" :footer='null'></RemarkDialog>
   </div>
 </template>
 
 <script>
 import reqwest from "reqwest";
-import * as TYPES from '@/store/mutations-types'
-
+import * as TYPES from "@/store/mutations-types";
+import RemarkDialog from 'home/components/remarkDialog'
 import infiniteScroll from "vue-infinite-scroll";
+import { message } from 'ant-design-vue';
 const fakeDataUrl =
   "https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo";
 export default {
   directives: { infiniteScroll },
-  props:['commentTitle'],
+  props: ["commentTitle", "comments"],
   data() {
     return {
       data: [],
       loading: false,
-      busy: false
+      busy: false,
+      flag:true,
+
+      comment:{
+        title:'',
+        content:''
+      }
     };
   },
   beforeMount() {
@@ -52,8 +59,11 @@ export default {
     });
   },
   methods: {
-        showRemarkDialog(){
-      this.$store.commit(TYPES.CHANGE_REMARK_FLAG)
+    showRemarkDialog(item) {
+      this.comment = item
+      console.log(item)
+      this.$refs['commentCheck'].showModal()
+      // this.$store.commit(TYPES.CHANGE_REMARK_FLAG);
     },
     fetchData(callback) {
       reqwest({
@@ -66,27 +76,24 @@ export default {
         }
       });
     },
-    handleInfiniteOnLoad() {
-      const data = this.data;
-      this.loading = true;
-      if (data.length > 14) {
-        this.$message.warning("Infinite List loaded all");
-        this.busy = true;
-        this.loading = false;
-        return;
-      }
-      this.fetchData(res => {
-        this.data = data.concat(res.results);
-        this.loading = false;
-      });
-    }
-  }
+
+  },
+  components:{RemarkDialog}
 };
 </script>
 <style lang='stylus' scoped>
 .comment
   width 100%
   margin-bottom 30px
+  .ant-list-item-meta
+    flex 4
+    .ant-list-item-meta-description
+      display -webkit-box
+      -webkit-box-orient vertical
+      -webkit-line-clamp 2
+      overflow hidden
+  .username
+    font-size 18px
   .title
     font-weight bold
     font-size 18px
@@ -97,7 +104,7 @@ export default {
       vertical-align middle
 .demo-infinite-container
   border 1px solid #e8e8e8
-  // border none 
+  // border none
   border-radius 4px
   overflow auto
   padding 8px 24px

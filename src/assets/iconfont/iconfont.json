@@ -34,6 +34,13 @@
       "unicode_decimal": 58931
     },
     {
+      "icon_id": "3050233",
+      "name": "上传",
+      "font_class": "shangchuan",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
       "icon_id": "3106247",
       "name": "密码",
       "font_class": "mima",

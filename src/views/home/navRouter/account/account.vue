@@ -8,7 +8,7 @@
         <a-form-item v-bind="formItemLayout" label="头像">
           <a-avatar
             style="marginLeft:35%;width:60px;height:60px"
-            :src="avatar"
+            :src="'data:image/jpg;base64,'+userInfo.headPicture"
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="姓名">
@@ -54,6 +54,7 @@ import utils from "../../../../utils";
 export default {
   data() {
     return {
+      headimg:'',
       formItemLayout: {
         labelCol: {
           sm: { span: 8 }
@@ -96,16 +97,11 @@ export default {
         }
       }
     },
-    async avatar(){
-      if (!this.userInfo.headPicture) {
-        return 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
-      }else{
-          let a = await utils.blobToDataURL(this.userInfo.headPicture)
-          console.log(a)
-          return 
-    
-      }
-    }
+    //  blobToBase64(){
+    //    utils.blobToDataURL(this.userInfo.headPicture).then((e)=>{
+    //      this.headimg = e
+    //    })
+    // }
   },
   methods: {
     ...mapActions(["getUserInfo"]),

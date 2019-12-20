@@ -34,7 +34,9 @@ export default {
     },
     logout(){
       this.getUserLogout().then(()=>{
-        this.$router.push({path:'/login'})
+        // console.log(location)
+        location.href=location.origin
+        // this.$router.push({path:'/login'})
       })
     }
   },

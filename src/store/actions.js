@@ -98,10 +98,13 @@ export default {
       commit(TYPES.GET_TEA_INFO, data)
     })
   },
-
-
-
-
+  // 获取详情页信息
+  async getTeaDetailInfo({commit},payload){
+    let {data} = await allReq.reqGetTeaDetail(payload)
+    detailBackCode(data,{},(payload)=>{
+      commit(TYPES.GET_TEA_DETAIL,payload)
+    })
+  },
   // 管理员--------------------------
   // 获取正在申请登陆权限的用户
   async getAllUserApplyLoginInfo({commit},payload){

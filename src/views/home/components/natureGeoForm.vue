@@ -4,9 +4,19 @@
       <span class="iconfont">&#xe626;</span>
       地理位置
     </h2>
-    <a-form :form="form" >
-      <a-row :gutter='0'  type="flex" justify="space-between" style="display:flex;justify-content:space-between" >
-        <a-col v-for="(item,index) in formItemGeo" :key="index" :span="8" style="height:45px;width:360px">
+    <a-form :form="form">
+      <a-row
+        :gutter="0"
+        type="flex"
+        justify="space-between"
+        style="display:flex;justify-content:space-between"
+      >
+        <a-col
+          v-for="(item,index) in formItemGeo"
+          :key="index"
+          :span="8"
+          style="height:45px;width:360px"
+        >
           <a-form-item
             :label-col="formLayout.labelCol"
             :wrapper-col="formLayout.wrapperCol"
@@ -27,7 +37,7 @@
                   initialValue:tea[item[0]]
                 },
               ]"
-              :placeholder='`请输入${item[1]}`'
+              :placeholder="`请输入${item[1]}`"
             />
           </a-form-item>
         </a-col>
@@ -36,8 +46,13 @@
         <span class="iconfont">&#xe626;</span>
         自然条件
       </h2>
-      <a-row :gutter='24'  type="flex" justify="space-between" >
-        <a-col v-for="(item,index) in formItemNature" :key="index" :span="8" style="height:45px;width:360px">
+      <a-row :gutter="24" type="flex" justify="space-between">
+        <a-col
+          v-for="(item,index) in formItemNature"
+          :key="index"
+          :span="8"
+          style="height:45px;width:360px"
+        >
           <a-form-item
             :label-col="formLayout.labelCol"
             :wrapper-col="formLayout.wrapperCol"
@@ -58,7 +73,7 @@
                   ],
                 },
               ]"
-              :placeholder='`请输入${item[1]}`'
+              :placeholder="`请输入${item[1]}`"
             />
           </a-form-item>
         </a-col>
@@ -68,15 +83,17 @@
 </template>
 
 <script>
+import { reqModiTeaDetail } from "@/api";
+import utils from "../../../utils";
 export default {
-  props:['tea'],
+  props: ["tea"],
   data() {
     return {
       formLayout: {
         labelCol: { span: 8 },
-        wrapperCol: { span: 16}
+        wrapperCol: { span: 16 }
       },
-      form: this.$form.createForm(this, { name: "advanced_search" })
+      form: this.$form.createForm(this, { name: "nature" })
     };
   },
 
@@ -117,11 +134,15 @@ export default {
   mounted() {},
 
   methods: {
-    handleSearch(e) {
-      e.preventDefault();
-      this.form.validateFields((error, values) => {
-        console.log("error", error);
-        console.log("Received values of form: ", values);
+    changeTeaInfo() {
+      console.log("00");
+      this.form.validateFields(async (error, values) => {
+        if (!error) {
+          console.log("Received values of form: ", values);
+          let payload = {...values,id:this.$route.query.id}
+          let { data } = await reqModiTeaDetail(payload);
+          utils.detailBackCode(data, { s: "修改成功" });
+        }
       });
     },
 
@@ -140,7 +161,7 @@ export default {
 <style lang='stylus' scoped>
 .nature-geo
   width 100%
-  border-bottom 1px  solid #eee
+  border-bottom 1px solid #eee
   padding-bottom 20px
   margin-bottom 25px
   .title

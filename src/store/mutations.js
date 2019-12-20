@@ -26,7 +26,9 @@ export default {
       state.teaInfo.list = list
       state.teaInfo.total = total
     },
-
+    [TYPES.GET_TEA_DETAIL](state,payload){
+      state.teaDetailInfo = payload
+    },
 
 
     // 管理员---------

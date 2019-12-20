@@ -16,6 +16,7 @@ export default {
       list:[],
       total:0
     },
+    teaDetailInfo:{},
     // 超级管理员admin--------------
     allUserRoleInfo:{
       list:[],

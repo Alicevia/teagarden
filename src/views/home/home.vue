@@ -20,46 +20,18 @@ import Header from "./components/header";
 import Nav from "./components/nav";
 import { mapActions } from 'vuex';
 
-let dataResource = [];
-
-for (let i = 0; i < 20; i++) {
-  dataResource.push({
-    id:i,
-    name: `茶园${i}号`,
-    year: i,
-    area: i,
-    varieties: "群体种",
-    longitude: 117.75888888+Math.random()*0.01,
-    latitude: 27.973888888+Math.random()*0.01,
-    county: "铅山县",
-    town: "武夷山镇",
-    village: "篁村",
-    ph: 4.7+Math.random(),
-    organicMatter: 27.9+Math.random(),
-    quickActingN: 100+Math.random(),
-    quickActingP: 50+Math.random(),
-    quickActingK: 80+Math.random(),
-    n: 1+Math.random(),
-    p:0.5+Math.random(),
-    K: 30+Math.random(),
-    terrain: "丘陵",
-    soilType: "水稻土",
-    altitude: "440",
-    remarks: `YAS${i}`
-  });
-}
-
 export default {
   data(){
     return {
-      dataResource
+      
     }
   },
   created(){
-    // console.log(this.dataResource)
+    this.getUserInfo()
   },
   activated() {},
   methods: {
+    ...mapActions(['getUserInfo'])
   },
   components: {
     Header,

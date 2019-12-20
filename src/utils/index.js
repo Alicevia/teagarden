@@ -55,14 +55,19 @@ let utils = function (params) {
     return new Blob([u8arr], { type: mime });
   }
 
-  async function blobToDataURL(blob) { //blob转base64
-    return new Promise(resolve=>{
-      var a = new FileReader();
-      a.readAsDataURL(blob);//读取文件保存在result中
-      a.onload = function (e) {
-        resolve(e.target.result);//读取的结果在result中
-      }
-    })
+  function blobToDataURL(blob) { //blob转base64
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        resolve(e.target.result);
+      };
+      // readAsDataURL
+      fileReader.readAsDataURL(blob);
+      fileReader.onerror = () => {
+        reject(new Error('文件流异常'));
+      };
+    });
+
 
 
   }

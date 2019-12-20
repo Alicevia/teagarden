@@ -31,3 +31,17 @@ export const reqGetTeaDetail = (data)=>axios({
   method:'get',
   flag:true
 })
+// 修改茶园详情
+export const reqModiTeaDetail = (data)=>axios({
+  url:'teaGarden/modifyTeaGardenInformation',
+  data,
+  method:'put',
+})
+
+// 添加备注信息
+export const reqAddRemark = (data)=>axios({
+  url:`postscript/addRemark`,
+  data,
+  method:'post',
+  flag:false
+})
