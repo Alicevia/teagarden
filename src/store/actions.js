@@ -34,7 +34,6 @@ export default {
     detailBackCode(data,{},(payload)=>{
       commit(TYPES.GET_USER_INFO,payload)
     })
-
   },
   // 用户注册
   async getUserRegister({},payload){
@@ -112,10 +111,19 @@ export default {
     if (succeed) {
       if (data.total===0) {
         message.warning('当前无用户')
+        commit(TYPES.GET_ALL_USER_APPLAY_INFO,data)
         return
       }
       commit(TYPES.GET_ALL_USER_APPLAY_INFO,data)
     }
+  },
+
+  // 获取所有订阅的茶园信息
+  async getSubscribeTea({commit}){
+    let {data} = await allReq.reqFindSubscriptionTeaInfo()
+    detailBackCode(data,{},(payload)=>{
+      commit(TYPES.GET_SUBSCRIBE_TEA_INFO,payload)
+    })
   },
   // admin------------------------
   // 获取所有用户的角色信息

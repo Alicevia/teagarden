@@ -1,4 +1,7 @@
 <template>
+<div>
+  <a-spin tip="正在下载..." :spinning='loading'>
+
   <TableShow
     :columns="columns"
     :tableData="teaInfo.list"
@@ -8,9 +11,15 @@
   >
     <span slot="title">当前页面:茶园</span>
     <div slot="opreate">
-      <a-input-search v-model="name" placeholder="搜索" @keyup.enter="searchTea" style="width: 200px" />
+      <a-input-search
+        v-model="name"
+        placeholder="搜索"
+        @keyup.enter="searchTea"
+        style="width: 200px"
+      />
       <a-button style="margin:0 10px" @click="searchTea">查询</a-button>
-      <a-button type="primary">导出</a-button>
+      <a-button type="primary" style="marginRight:10px" @click="exportTea(false)">导出选中</a-button>
+      <a-button type="danger" @click="exportTea(true)">导出全部</a-button>
     </div>
     <template #action="{record}">
       <a-button
@@ -36,12 +45,16 @@
       </a-button>
     </template>
   </TableShow>
+  </a-spin>
+
+</div>
+
 </template>
 
 <script>
 import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
-import { reqSubscribeTea, reqUnSubscribeTea } from "@/api";
+import { reqSubscribeTea, reqUnSubscribeTea, reqExportTea } from "@/api";
 import utils from "../../../../utils";
 const columns = [
   { align: "center", title: "序号", dataIndex: "id", key: "id" },
@@ -66,6 +79,7 @@ const columns = [
 export default {
   data() {
     return {
+      loading:false,
       columns,
       current: 1,
       pageSize: 10,
@@ -79,11 +93,8 @@ export default {
       const { selectedRowKeys } = this;
       return {
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(
-            `selectedRowKeys: ${selectedRowKeys}`,
-            "selectedRows: ",
-            selectedRows
-          );
+          console.log(selectedRowKeys);
+          this.selectedRowKeys = selectedRowKeys;
         },
         getCheckboxProps: record => ({
           props: {
@@ -112,7 +123,10 @@ export default {
         return {
           on: {
             click: e => {
-              this.$router.push({path:'/home/detail',query:{id:record.id}})
+              this.$router.push({
+                path: "/home/detail",
+                query: { id: record.id }
+              });
               // this.$router.push({ path: "/home/detail", query: record });
             }
           }
@@ -159,19 +173,49 @@ export default {
       });
     },
     // 查询
-    searchTea(){
-       if (this.name === "") {
+    searchTea() {
+      if (this.name === "") {
         message.warning("请输入查询条件");
         return;
       }
-      this.current = 1
+      this.current = 1;
       this.getTeaInfo({
         page: this.current,
         size: this.pageSize,
         name: this.name
       });
+    },
+    exportEx(data){
+ const blob = new Blob([data], {
+        type:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+      });
+      const downloadElement = document.createElement("a");
+      const href = window.URL.createObjectURL(blob);
+      downloadElement.href = href;
+      downloadElement.download = "茶园信息.xlsx";
+      document.body.appendChild(downloadElement);
+      downloadElement.click();
+      document.body.removeChild(downloadElement); // 下载完成移除元素
+      window.URL.revokeObjectURL(href); // 释放掉blob对象
+      this.loading = false
+    },
+    async exportTea(isAll) {
+      this.loading = true
+      if (isAll) {
+        let { data } = await reqExportTea({ isAll });
+        this.exportEx(data)
+      } else {
+        let payload = {
+          isAll,
+          teaGardenIds: this.selectedRowKeys
+        };
+        let { data } = await reqExportTea(payload);
+        this.exportEx(data)
+
+      }
+     
     }
-    
   },
   watch: {
     name(value) {

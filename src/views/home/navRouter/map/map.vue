@@ -1,10 +1,16 @@
 <template>
-  <el-amap vid="amapDemo" :zoom="zoom" :plugin="plugin" :center="center" class="map">
-    <template v-for="(item,index) in teaInfo">
+  <el-amap
+    vid="amapDemo"
+    :zoom="zoom"
+    :plugin="plugin"
+    :center="center"
+    class="map"
+  >
+    <template v-for="(item,index) in teaSubscribeInfo">
       <el-amap-marker
-        :position="[item.longitude,item.latitude]"
-        :key="item.id"
-        :label="{content:item.name,offset: [-20, -20]}"
+        :position="[parseFloat(item.longitude),parseFloat(item.latitude)]"
+        :key="index"
+        :label="{content:item.name,offset: [-60, -25]}"
         :events="events"
         :extData="item"
       ></el-amap-marker>
@@ -14,7 +20,7 @@
 
 <script>
 import VueAMap from "vue-amap";
-import { mapState } from 'vuex';
+import { mapState, mapActions } from "vuex";
 VueAMap.initAMapApiLoader({
   key: "23a9ece5a475725cf1a4b1cda321e6ce",
   plugin: [
@@ -33,57 +39,86 @@ VueAMap.initAMapApiLoader({
 export default {
   data() {
     return {
-      center: [117.75888888, 27.973888888],
+      // center: [115, 29],
       zoom: 11,
       active: false,
-      label: {
-        content: "武夷山镇篁村",
-        offset: [-20, -20]
-      },
+      // label: {
+      //   content: "武夷山镇篁村",
+      //   offset: [0, 0]
+      // },
       events: {
         click: (item, e) => {
-          this.$router.push({ path: "/home/detail",query:item.target.F.extData });
-          console.log(item, e);
+          this.$router.push({
+            path: "/home/detail",
+            query: { id: item.target.F.extData.teaId }
+          });
         }
       },
+      // eventsmap: {
+      //   mousewheel: (item) => {
+      //     console.log(item);
+      //   }
+      // },
       plugin: [
         {
           pName: "ToolBar", //工具条插件
           position: "LT"
+        },
+        {
+          pName: "Geolocation",
+          showMarker: true,
+          buttonPosition: "RB",
+          events: {
+            // init(o) {
+            //   //定位成功 自动将marker和circle移到定位点
+            //   o.getCurrentPosition((status, result) => {
+            //     console.log(result);
+            //     if (result && result.position) {
+            //       self.center = [result.position.lng, result.position.lat];
+            //       self.loaded = true;
+            //     } else {
+            //       console.log(`定位失败`);
+            //     }
+            //   });
+            //   console.log(o);
+            // }
+          }
         }
-        // {
-        //   pName: "Geolocation",
-        //   showMarker: true,
-        //   buttonPosition: "RB",
-        //   events: {
-        //     init(o) {
-        //       //定位成功 自动将marker和circle移到定位点
-        //       o.getCurrentPosition((status, result) => {
-        //         console.log(result);
-        //         if (result && result.position) {
-        //           self.center = [result.position.lng, result.position.lat];
-        //           self.loaded = true;
-        //         } else {
-        //           console.log(`定位失败`);
-        //         }
-        //       });
-        //       console.log(o);
-        //     }
-        //   }
-        // }
       ]
     };
   },
 
   computed: {
-    ...mapState(['teaInfo'])
+    ...mapState(["teaSubscribeInfo", "searchResult"]),
+    toNumber() {
+      return num => {
+        return parseInt(num);
+      };
+    },
+    center() {
+      if (this.searchResult.length !== 0) {
+        console.log(this.zoom);
+        this.zoom = 14;
+        return this.searchResult;
+      } else {
+        let tea = this.teaSubscribeInfo[0] || [];
+        this.zoom = 11
+        return [parseFloat(tea.longitude), parseFloat(tea.latitude)];
+      }
+    }
   },
-
+  created() {
+    this.getSubscribeTea();
+  },
   mounted() {},
 
   methods: {
+    ...mapActions(["getSubscribeTea"]),
     teaArea(item) {
       console.log(item);
+    },
+    mw(e) {
+      console.log(e);
     }
   },
 

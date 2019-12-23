@@ -17,12 +17,12 @@
         <a-button style="margin:0 0px 0 10px" @click="searchTea">查询</a-button>
         <!-- <a-button type="primary">导出</a-button> -->
       </div>
-      <a-button slot="action" type="primary" style="borderRadius:16px" @click.stop="advisePro">
+      <a-button slot="action" slot-scope="{record}" type="primary" style="borderRadius:16px" @click.stop="advisePro(record.id)">
         <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
-        <span style="marginLeft:6px" @click.stop.native>建议</span>
+        <span style="marginLeft:6px">建议</span>
       </a-button>
     </TableShow>
-    <RemarkDialog ></RemarkDialog>
+    <RemarkDialog ref="proAdvise" theme='专家建议' :comment='{}' :searchId='searchId'></RemarkDialog>
   </div>
 </template>
 <script>
@@ -62,7 +62,8 @@ export default {
       columns,
       current: 1,
       pageSize: 10,
-      name: ""
+      name: "",
+      searchId:''
     };
   },
 
@@ -87,7 +88,8 @@ export default {
         return {
           on: {
             click: e => {
-              this.$router.push({ path: "/home/detail", query: record });
+              // this.$router.push({ path: "/home/detail", query: record });
+                this.$router.push({path:'/home/detail',query:{id:record.id}})
             }
           }
         };
@@ -100,9 +102,10 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getTeaInfo", "toggleAdviseDialog"]),
-    advisePro() {
-      this.toggleAdviseDialog();
+    ...mapActions(["getTeaInfo"]),
+    advisePro(id) {
+      this.searchId = id
+      this.$refs['proAdvise'].showModal()
     },
     // 改变页码
     changePage(page, pageSize) {

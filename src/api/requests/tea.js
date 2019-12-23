@@ -45,3 +45,26 @@ export const reqAddRemark = (data)=>axios({
   method:'post',
   flag:false
 })
+
+// 上传茶园Excel
+export const reqUploadTeaInfo = data=>axios({
+  url:'teaGarden/saveGardenInformation',
+  data,
+  method:'post',
+})
+
+// 获取订阅的茶园信息
+export const reqFindSubscriptionTeaInfo = ()=>axios({
+  url:'teaGarden/findSubscription',
+})
+
+// 导出选中茶园
+export const reqExportTea = data=>axios({
+  url:'export/exportGardenInformation',
+  data,
+  method:'post',
+  config:{
+    // headers:{'Content-Type':'multipart/form-data'},
+    responseType: 'blob'
+  }
+})

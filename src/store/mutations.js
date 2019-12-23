@@ -29,6 +29,12 @@ export default {
     [TYPES.GET_TEA_DETAIL](state,payload){
       state.teaDetailInfo = payload
     },
+    [TYPES.GET_SUBSCRIBE_TEA_INFO](state,payload){
+      state.teaSubscribeInfo = payload
+    },
+    [TYPES.SEARCH_RESULT_POSITION](state,payload){
+      state.searchResult = payload
+    },
 
 
     // 管理员---------

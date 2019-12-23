@@ -1,7 +1,7 @@
 export default {
     remarkFlag:false,
     userToken:'',
-
+    searchResult:[],
     // 管理员------------------
     allUserApplyLogin:{
       list:[],
@@ -17,6 +17,7 @@ export default {
       total:0
     },
     teaDetailInfo:{},
+    teaSubscribeInfo:[],
     // 超级管理员admin--------------
     allUserRoleInfo:{
       list:[],

@@ -37,7 +37,7 @@ import * as TYPES from "@/store/mutations-types";
 import {reqAddRemark} from '@/api'
 import utils from '../../../utils';
 export default {
-  props: ["theme", "footer", "comment"],
+  props: ["theme", "footer", "comment",'searchId'],
 
   data() {
     return {
@@ -48,14 +48,6 @@ export default {
   },
   computed: {
     ...mapState(["remarkFlag"])
-    // visible:{
-    //   get(){
-    //     return this.remarkFlag
-    //   },
-    //   set(){
-    //     this.$store.commit(TYPES.CHANGE_REMARK_FLAG)
-    //   }
-    // }
   },
   methods: {
     ...mapActions(['getTeaDetailInfo']),
@@ -67,15 +59,20 @@ export default {
       e.preventDefault();
       this.form.validateFields(async (err, values) => {
         if (!err) {
+          // console.log(this.searchId,this.$route.query.id)
+          // return 
+          let id = this.$route.query.id?this.$route.query.id:this.searchId
           let payload = {
             ...values,
-            teaGardenId:this.$route.query.id
+            teaGardenId:id
           }
+          
           let {data} = await reqAddRemark(payload)
           utils.detailBackCode(data,{s:'备注成功'},()=>{
             this.form.resetFields()
             this.showModal()
-            this.getTeaDetailInfo({teaGardenId:this.$route.query.id})
+            
+            this.getTeaDetailInfo({teaGardenId:id})
           })
         }
       });

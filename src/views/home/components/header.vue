@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <a-input @pressEnter='searchFarm' class="search-farmland" placeholder="请输入农田名称" size="large">
+    <a-input @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入农田名称" size="large">
       <a-icon slot="prefix" type="search" />
     </a-input>
     <div class="user-center">
@@ -17,20 +17,38 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+import { message } from 'ant-design-vue';
+import * as TYPES from '@/store/mutations-types'
 export default {
   data() {
-    return {};
+    return {
+      search:''
+    };
   },
 
-  computed: {},
+  computed: {
+    ...mapState(['teaSubscribeInfo'])
+  },
 
   mounted() {},
 
   methods: {
     ...mapActions(['getUserLogout']),
-    searchFarm(value) {
-      console.log(value);
+    searchFarm(e) {
+      let value = e.target.value
+      let list = this.teaSubscribeInfo
+      let searchResult = list.find(item=>{
+        return item.name.includes(value)
+      })
+      if (!searchResult) {
+        message.warning('搜索结果为空')
+        this.$store.commit(TYPES.SEARCH_RESULT_POSITION,[])
+      }else{
+        this.$store.commit(TYPES.SEARCH_RESULT_POSITION,[parseFloat(searchResult.longitude),parseFloat(searchResult.latitude)])
+        console.log(searchResult);
+      }
+
     },
     logout(){
       this.getUserLogout().then(()=>{
@@ -38,6 +56,13 @@ export default {
         location.href=location.origin
         // this.$router.push({path:'/login'})
       })
+    }
+  },
+  watch:{
+    search(value){
+      if (value.trim()==='') {
+        this.$store.commit(TYPES.SEARCH_RESULT_POSITION,[])
+      }
     }
   },
 

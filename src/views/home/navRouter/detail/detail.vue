@@ -12,7 +12,7 @@
           <span style="marginLeft:6px">{{professorTitle}}</span>
         </a-button>
         <a-button type="primary" style="borderRadius:16px" ghost @click="modiTeaNatureInfo">
-          <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
+          <span class="iconfont" style="fontSize:14px">&#xe602;</span>
           <span style="marginLeft:6px">提交</span>
         </a-button>
 
@@ -67,6 +67,7 @@ export default {
 
   mounted() {},
   activated() {
+    // 获取对应id的茶园信息
       this.getTeaDetailInfo({teaGardenId:this.$route.query.id})
   },
 
@@ -79,12 +80,14 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
+    // 订阅
     async subscribeTea(){
       let {data} = await reqSubscribeTea({teaGardenId:this.$route.query.id})
       utils.detailBackCode(data,{s:'订阅成功'},()=>{
         this.getTeaDetailInfo({teaGardenId:this.$route.query.id})
       })
     },
+    // 取消订阅
     async unSubscribeTea(){
           let {data} = await reqUnSubscribeTea({teaGardenId:this.$route.query.id})
       utils.detailBackCode(data,{s:'已取消订阅'},()=>{
@@ -94,9 +97,7 @@ export default {
     modiTeaNatureInfo(){
       this.$refs['nature'].changeTeaInfo()
     }
-
   },
-
   components: {NatureGeoForm,Comment,RemarkDialog}
 };
 </script>

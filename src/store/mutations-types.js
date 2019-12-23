@@ -5,7 +5,8 @@ export const GET_TEA_DETAIL = 'GET_TEA_DETAIL'
 
 export const UPDATE_USER_TOKEN = 'UPDATE_USER_TOKEN'
 export const CLEAR_USER_TOKEN = 'CLEAR_USER_TOKEN'
-
+export const GET_SUBSCRIBE_TEA_INFO = 'SUBSCRIBE_TEA_INFO'
+export const SEARCH_RESULT_POSITION = 'SEARCH_RESULT_POSITION'
 // 管理员-----------
 export const GET_ALL_USER_APPLAY_INFO ='GET_ALL_USER_APPLAY_INFO'
 // admin---------------
