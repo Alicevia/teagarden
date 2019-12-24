@@ -9,6 +9,7 @@
       @ok="handleOk"
       :width="700"
       :centered="true"
+      :destroyOnClose='true'
     >
       <a-form :form="form">
         <a-form-item label="标题" :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }">

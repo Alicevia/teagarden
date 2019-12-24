@@ -8,7 +8,7 @@
         <a-form-item v-bind="formItemLayout" label="头像">
           <a-avatar
             style="marginLeft:35%;width:60px;height:60px"
-            :src="'data:image/jpg;base64,'+userInfo.headPicture"
+            :src="userInfo.headPicture"
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="姓名">
@@ -111,7 +111,7 @@ export default {
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
           let { data } = await reqModiUserInfo(values);
-          console.log(data);
+          // console.log(data);
           utils.detailBackCode(data, { s: "修改个人信息成功" }, () => {
             this.getUserInfo();
           });

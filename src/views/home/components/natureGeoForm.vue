@@ -135,10 +135,10 @@ export default {
 
   methods: {
     changeTeaInfo() {
-      console.log("00");
+      // console.log("00");
       this.form.validateFields(async (error, values) => {
         if (!error) {
-          console.log("Received values of form: ", values);
+          // console.log("Received values of form: ", values);
           let payload = {...values,id:this.$route.query.id}
           let { data } = await reqModiTeaDetail(payload);
           utils.detailBackCode(data, { s: "修改成功" });

@@ -10,6 +10,23 @@ import {
 } from 'ant-design-vue'
 
 import VueAMap from 'vue-amap'
+// VueAMap.initAMapApiLoader({
+//   key: "23a9ece5a475725cf1a4b1cda321e6ce",
+//   plugin: [
+//     "AMap.Autocomplete",
+//     "AMap.PlaceSearch",
+//     "AMap.Scale",
+//     "AMap.OverView",
+//     "AMap.ToolBar",
+//     "AMap.MapType",
+//     "AMap.PolyEditor",
+//     "AMap.CircleEditor",
+//     "AMap.Geolocation"
+//   ],
+//   v: "1.4.4"
+// });
+
+
 
 function syncStorageToAxios() {
   if (localStorage.getItem('user-token')) {

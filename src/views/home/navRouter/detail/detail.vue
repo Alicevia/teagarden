@@ -49,6 +49,7 @@ import * as TYPES from '@/store/mutations-types'
 import {reqGetTeaDetail,reqUnSubscribeTea,reqSubscribeTea} from '@/api'
 import utils from '../../../../utils'
 import { mapState, mapActions } from 'vuex'
+import { message } from 'ant-design-vue'
 export default {
   // props: ["detail"],
   data() {
@@ -95,7 +96,12 @@ export default {
       })
     },
     modiTeaNatureInfo(){
-      this.$refs['nature'].changeTeaInfo()
+      if ([1,2].indexOf(this.userInfo.roleId)!==-1) {
+        this.$refs['nature'].changeTeaInfo()
+      }else{
+        message.warning('无权限修改信息')
+      }
+
     }
   },
   components: {NatureGeoForm,Comment,RemarkDialog}

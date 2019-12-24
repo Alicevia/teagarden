@@ -10,12 +10,12 @@
       :infinite-scroll-distance="10"
     >
       <a-list :dataSource="comments">
-        <a-list-item @click="showRemarkDialog(item)" slot="renderItem" slot-scope="item, index">
+        <a-list-item @click="showRemarkDialog(item)" slot="renderItem" slot-scope="item">
           <a-list-item-meta :description="item.title" class="meta-item">
             <a slot="title" class="username">{{item.userName}}</a>
             <a-avatar
               slot="avatar"
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+              :src="item.headPicture"
             />
           </a-list-item-meta>
           <div>{{item.remarksTime}}</div>

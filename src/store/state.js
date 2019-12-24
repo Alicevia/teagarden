@@ -2,6 +2,7 @@ export default {
     remarkFlag:false,
     userToken:'',
     searchResult:[],
+    oneselfPosition:[115,29],
     // 管理员------------------
     allUserApplyLogin:{
       list:[],

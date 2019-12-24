@@ -82,6 +82,12 @@ export default {
   deleteUserToken({commit}){
     commit(TYPES.CLEAR_USER_TOKEN)
   },
+  // 获取自己的经纬度
+  getOneselfPosition({commit},payload){
+    commit(TYPES.GET_ONESELF_POSITION,payload)
+  },
+
+  
 
   // 专家建议对话框
   toggleAdviseDialog({commit}){
@@ -122,6 +128,11 @@ export default {
   async getSubscribeTea({commit}){
     let {data} = await allReq.reqFindSubscriptionTeaInfo()
     detailBackCode(data,{},(payload)=>{
+      if (!payload) {
+        payload = []
+      }
+      // console.log(payload)
+
       commit(TYPES.GET_SUBSCRIBE_TEA_INFO,payload)
     })
   },

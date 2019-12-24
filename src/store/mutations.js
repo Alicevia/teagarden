@@ -35,6 +35,10 @@ export default {
     [TYPES.SEARCH_RESULT_POSITION](state,payload){
       state.searchResult = payload
     },
+    [TYPES.GET_ONESELF_POSITION](state,payload){
+      state.oneselfPosition = payload
+    },
+
 
 
     // 管理员---------

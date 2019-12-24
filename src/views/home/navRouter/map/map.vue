@@ -1,11 +1,5 @@
 <template>
-  <el-amap
-    vid="amapDemo"
-    :zoom="zoom"
-    :plugin="plugin"
-    :center="center"
-    class="map"
-  >
+  <el-amap vid="amapDemo" :zoom="zoom" :plugin="plugin" :center="center" class="map">
     <template v-for="(item,index) in teaSubscribeInfo">
       <el-amap-marker
         :position="[parseFloat(item.longitude),parseFloat(item.latitude)]"
@@ -17,10 +11,10 @@
     </template>
   </el-amap>
 </template>
-
 <script>
 import VueAMap from "vue-amap";
 import { mapState, mapActions } from "vuex";
+import { message } from "ant-design-vue";
 VueAMap.initAMapApiLoader({
   key: "23a9ece5a475725cf1a4b1cda321e6ce",
   plugin: [
@@ -36,12 +30,14 @@ VueAMap.initAMapApiLoader({
   ],
   v: "1.4.4"
 });
+// console.log(VueAMap,'---')
 export default {
   data() {
     return {
       // center: [115, 29],
       zoom: 11,
       active: false,
+ 
       // label: {
       //   content: "武夷山镇篁村",
       //   offset: [0, 0]
@@ -69,19 +65,27 @@ export default {
           showMarker: true,
           buttonPosition: "RB",
           events: {
-            // init(o) {
-            //   //定位成功 自动将marker和circle移到定位点
-            //   o.getCurrentPosition((status, result) => {
-            //     console.log(result);
-            //     if (result && result.position) {
-            //       self.center = [result.position.lng, result.position.lat];
-            //       self.loaded = true;
-            //     } else {
-            //       console.log(`定位失败`);
-            //     }
-            //   });
-            //   console.log(o);
-            // }
+            init:(o)=> {
+                if (this.teaSubscribeInfo.length!==0) {
+                  return
+                }
+              //定位成功 自动将marker和circle移到定位点
+              o.getCurrentPosition((status, result) => {
+                // console.log(result);
+                if (result && result.position) {
+                  // self.center = [result.position.lng, result.position.lat];
+                  // this.longitude =result.position.lng
+                  // this.latitude = result.position.lat
+                  // console.log([result.position.lng,result.position.lat])
+                  this.getOneselfPosition([result.position.lng,result.position.lat])
+                  // console.log(this.longitude)
+                  // self.loaded = true;
+                } else {
+                  console.log(`定位失败`);
+                }
+              });
+              // console.log(o);
+            }
           }
         }
       ]
@@ -89,7 +93,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["teaSubscribeInfo", "searchResult"]),
+    ...mapState(["teaSubscribeInfo", "searchResult",'oneselfPosition']),
     toNumber() {
       return num => {
         return parseInt(num);
@@ -97,13 +101,19 @@ export default {
     },
     center() {
       if (this.searchResult.length !== 0) {
-        console.log(this.zoom);
         this.zoom = 14;
         return this.searchResult;
       } else {
-        let tea = this.teaSubscribeInfo[0] || [];
-        this.zoom = 11
-        return [parseFloat(tea.longitude), parseFloat(tea.latitude)];
+        if (this.teaSubscribeInfo.length !== 0) {
+          let tea = this.teaSubscribeInfo[0];
+          this.zoom = 11;
+          return [parseFloat(tea.longitude), parseFloat(tea.latitude)];
+        }else{
+          // console.log( [this.longitude,this.latitude])
+          return this.oneselfPosition
+        }
+
+
       }
     }
   },
@@ -113,13 +123,9 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getSubscribeTea"]),
-    teaArea(item) {
-      console.log(item);
-    },
-    mw(e) {
-      console.log(e);
-    }
+    ...mapActions(["getSubscribeTea",'getOneselfPosition']),
+
+
   },
 
   components: {}

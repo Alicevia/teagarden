@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <a-input @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入农田名称" size="large">
+    <a-input v-show="$route.path==='/home/map'" @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入农田名称" size="large">
       <a-icon slot="prefix" type="search" />
     </a-input>
     <div class="user-center">

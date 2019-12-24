@@ -51,7 +51,7 @@
             :visible="hovered"
             @visibleChange="handleHoverChange"
           >
-            <div slot="content">177 7888 8845</div>
+            <div slot="content">phone:177 7888 8845</div>
             <span class="method">忘记密码?</span>
           </a-popover>|
           <router-link to="register" tag="span" class="method">注册一个新账号</router-link>
