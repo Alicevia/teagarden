@@ -53,7 +53,7 @@ export default {
     logout(){
       this.getUserLogout().then(()=>{
         // console.log(location)
-        location.href=location.origin
+        location.href=location.origin+location.pathname
         // this.$router.push({path:'/login'})
       })
     }

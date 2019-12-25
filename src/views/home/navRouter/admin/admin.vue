@@ -14,7 +14,7 @@
 
     </template>
     <template #role='{record}'>
-      <a-select @select="saveUserRoleId" :disabled='record.roleId===1'   style="width: 200px" :defaultValue='record.roleId===1?"超级管理员":record.roleId' >
+      <a-select @select="saveUserRoleId" @change="getUserId(record.id)" :disabled='record.roleId===1'   style="width: 200px" :defaultValue='record.roleId===1?"超级管理员":record.roleId' >
         <a-select-option  v-for="(item,index) in ['管理员','专家','普通用户']" :key="index+2">{{item}}</a-select-option>
       </a-select>
       <a-button type="primary" style="marginLeft:10px" :disabled='record.roleId===1'  @click="changeUserRole(record.id)">提交</a-button>
@@ -27,6 +27,7 @@ import TableShow from "home/components/tableShow";
 import { mapActions, mapState } from 'vuex';
 import {reqModiUserRole,reqResetPassword} from '@/api'
 import utils from '../../../../utils';
+import { message } from 'ant-design-vue';
 const columns = [
   // { align: "center", title: "序号", dataIndex: "id", key: "id" },
     {
@@ -100,17 +101,28 @@ export default {
       let {data} = await reqResetPassword({userId:id})
       utils.detailBackCode(data,{s:'初始化密码成功'})
     },
+    // 获取修改的角色id
+    getUserId(id){
+      // console.log(id)
+      this.userId = id
+    },
     saveUserRoleId(value){
+      // console.log(value)
       this.payload = {
         roleId:value
       }
     },
     // 修改用户角色
     async changeUserRole(id){
+      if (this.userId!==id) {
+        message.warning('您没有修改该用户角色')
+        return
+      }
       this.payload.userId  = id
       let {data} = await reqModiUserRole(this.payload)
       utils.detailBackCode(data,{s:'修改角色成功'},()=>{
         this.payload = null
+        this.userId = null
       })
       
     },

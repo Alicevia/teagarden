@@ -86,7 +86,7 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log( values);
+          // console.log( values);
           this.getUserLogin(values).then(()=>{
             this.form.resetFields()
             this.$router.replace({path:'/home'})

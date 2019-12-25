@@ -93,7 +93,7 @@ export default {
       const { selectedRowKeys } = this;
       return {
         onChange: (selectedRowKeys, selectedRows) => {
-          console.log(selectedRowKeys);
+          // console.log(selectedRowKeys);
           this.selectedRowKeys = selectedRowKeys;
         },
         getCheckboxProps: record => ({
