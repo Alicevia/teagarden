@@ -1,54 +1,51 @@
 <template>
-<div>
-  <a-spin tip="正在下载..." :spinning='loading'>
-
-  <TableShow
-    :columns="columns"
-    :tableData="teaInfo.list"
-    :customRow="customRow"
-    :rowSelection="rowSelection"
-    :pagination="pagination"
-  >
-    <span slot="title">当前页面:茶园</span>
-    <div slot="opreate">
-      <a-input-search
-        v-model="name"
-        placeholder="搜索"
-        @keyup.enter="searchTea"
-        style="width: 200px"
-      />
-      <a-button style="margin:0 10px" @click="searchTea">查询</a-button>
-      <a-button type="primary" style="marginRight:10px" @click="exportTea(false)">导出选中</a-button>
-      <a-button type="danger" @click="exportTea(true)">导出全部</a-button>
-    </div>
-    <template #action="{record}">
-      <a-button
-        v-if="!record.teaGardenSubscribeId"
-        type="primary"
-        style="borderRadius:16px"
-        @click.stop="subscribeTea(record.id)"
+  <div>
+    <a-spin tip="正在下载..." :spinning="loading">
+      <TableShow
+        :columns="columns"
+        :tableData="teaInfo.list"
+        :customRow="customRow"
+        :rowSelection="rowSelection"
+        :pagination="pagination"
       >
-        <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
-        <!-- 没订阅是0 -->
-        <span style="marginLeft:6px">订阅</span>
-      </a-button>
-      <a-button
-        v-else
-        type="primary"
-        ghost
-        style="borderRadius:16px"
-        @click.stop="unSubscribeTea(record.id)"
-      >
-        <span class="iconfont" style="fontSize:14px">&#xe602;</span>
-        <!-- 没订阅是0 -->
-        <span style="marginLeft:6px">已订阅</span>
-      </a-button>
-    </template>
-  </TableShow>
-  </a-spin>
-
-</div>
-
+        <span slot="title">当前页面:茶园</span>
+        <div slot="opreate">
+          <a-input-search
+            v-model="name"
+            placeholder="搜索"
+            @keyup.enter="searchTea"
+            style="width: 200px"
+          />
+          <a-button style="margin:0 10px" @click="searchTea">查询</a-button>
+          <a-button type="primary" style="marginRight:10px" @click="exportTea(false)">导出选中</a-button>
+          <a-button type="danger" @click="exportTea(true)">导出全部</a-button>
+        </div>
+        <template #action="{record}">
+          <a-button
+            v-if="!record.teaGardenSubscribeId"
+            type="primary"
+            style="borderRadius:16px"
+            @click.stop="subscribeTea(record.id)"
+          >
+            <span class="iconfont" style="fontSize:14px">&#xe65b;</span>
+            <!-- 没订阅是0 -->
+            <span style="marginLeft:6px">订阅</span>
+          </a-button>
+          <a-button
+            v-else
+            type="primary"
+            ghost
+            style="borderRadius:16px"
+            @click.stop="unSubscribeTea(record.id)"
+          >
+            <span class="iconfont" style="fontSize:14px">&#xe602;</span>
+            <!-- 没订阅是0 -->
+            <span style="marginLeft:6px">已订阅</span>
+          </a-button>
+        </template>
+      </TableShow>
+    </a-spin>
+  </div>
 </template>
 
 <script>
@@ -57,7 +54,13 @@ import { mapState, mapActions } from "vuex";
 import { reqSubscribeTea, reqUnSubscribeTea, reqExportTea } from "@/api";
 import utils from "../../../../utils";
 const columns = [
-  { align: "center", title: "序号", dataIndex: "id", key: "id" },
+  {
+    align: "center",
+    title: "序号",
+    key: "sort",
+    scopedSlots: { customRender: "sort" }
+  },
+  // { align: "center", title: "序号", dataIndex: "id", key: "id",width:60 },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
   { align: "center", title: "地址", dataIndex: "address", key: "address" },
   { align: "center", title: "建园时间(年)", dataIndex: "year", key: "year" },
@@ -79,7 +82,7 @@ const columns = [
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       columns,
       current: 1,
       pageSize: 10,
@@ -140,7 +143,7 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getTeaInfo"]),
+    ...mapActions(["getTeaInfo", "getSubscribeTea"]),
     // 订阅
     async subscribeTea(id) {
       let { data } = await reqSubscribeTea({ teaGardenId: id });
@@ -149,6 +152,8 @@ export default {
           page: this.current,
           size: this.pageSize,
           name: this.name
+        }).then(() => {
+          this.getSubscribeTea();
         });
       });
     },
@@ -160,6 +165,8 @@ export default {
           page: this.current,
           size: this.pageSize,
           name: this.name
+        }).then(() => {
+          this.getSubscribeTea();
         });
       });
     },
@@ -185,8 +192,8 @@ export default {
         name: this.name
       });
     },
-    exportEx(data){
- const blob = new Blob([data], {
+    exportEx(data) {
+      const blob = new Blob([data], {
         type:
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
       });
@@ -198,23 +205,21 @@ export default {
       downloadElement.click();
       document.body.removeChild(downloadElement); // 下载完成移除元素
       window.URL.revokeObjectURL(href); // 释放掉blob对象
-      this.loading = false
+      this.loading = false;
     },
     async exportTea(isAll) {
-      this.loading = true
+      this.loading = true;
       if (isAll) {
         let { data } = await reqExportTea({ isAll });
-        this.exportEx(data)
+        this.exportEx(data);
       } else {
         let payload = {
           isAll,
           teaGardenIds: this.selectedRowKeys
         };
         let { data } = await reqExportTea(payload);
-        this.exportEx(data)
-
+        this.exportEx(data);
       }
-     
     }
   },
   watch: {

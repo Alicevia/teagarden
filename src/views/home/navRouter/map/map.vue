@@ -30,7 +30,6 @@ VueAMap.initAMapApiLoader({
   ],
   v: "1.4.4"
 });
-// console.log(VueAMap,'---')
 export default {
   data() {
     return {
@@ -112,8 +111,6 @@ export default {
           // console.log( [this.longitude,this.latitude])
           return this.oneselfPosition
         }
-
-
       }
     }
   },
@@ -124,8 +121,6 @@ export default {
 
   methods: {
     ...mapActions(["getSubscribeTea",'getOneselfPosition']),
-
-
   },
 
   components: {}

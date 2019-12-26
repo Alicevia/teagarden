@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import { message } from 'ant-design-vue'
 Vue.use(VueRouter)
 
 const routerPush = VueRouter.prototype.push
@@ -27,12 +28,12 @@ const routes = [
       },
       {
         path:'map',
-        component:()=>import('home/navRouter/map/map.vue')
+        component:()=>import('home/navRouter/map/map.vue'),
         // component:Map
       },
       {
         path:'tea',
-        component:()=>import('home/navRouter/tea/tea.vue')
+        component:()=>import('home/navRouter/tea/tea.vue'),
       },
       {
         // path:'detail/:detail',
@@ -46,23 +47,27 @@ const routes = [
       },
       {
         path:'professor',
-        component:()=>import('home/navRouter/professor/professor.vue')
+        component:()=>import('home/navRouter/professor/professor.vue'),
+        meta:{auth: [3] }
       },
       {
         path:'usermanage',
-        component:()=>import('home/navRouter/userManage/userManage.vue')
+        component:()=>import('home/navRouter/userManage/userManage.vue'),
+        meta:{auth: [1,2] }
       },
       {
         path:'admin',
-        component:()=>import('home/navRouter/admin/admin.vue')
+        component:()=>import('home/navRouter/admin/admin.vue'),
+        meta:{auth: [1] }
       },
       {
         path:'data',
-        component:()=>import('home/navRouter/dataUpload/dataUpload.vue')
+        component:()=>import('home/navRouter/dataUpload/dataUpload.vue'),
+        meta:{auth: [1,2] }
       },
       {
         path:'account',
-        component:()=>import('home/navRouter/account/account.vue')
+        component:()=>import('home/navRouter/account/account.vue'),
       },
     ]
   },
@@ -99,8 +104,19 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let isLogin = store.state.userToken
+  // let userInfo = store.state.userInfo
+  // let length = to.matched.length
+  // let auth = to.matched[length-1].meta.auth
+  // console.log(auth,userInfo.roleId)
   if (to.matched[0].meta.check) {
     if (isLogin) {
+      // if (!auth) {
+      //   next()
+      // }else if(auth.includes(userInfo.roleId) ){
+      //   next()
+      // }else{
+      //   message.warning('您暂时无权限访问')
+      // }
       next()
     } else {
       router.push({ path: '/login' })

@@ -30,13 +30,15 @@ import RemarkDialog from "home/components/remarkDialog.vue";
 
 import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
+import { message } from 'ant-design-vue';
 const columns = [
   // { align: "center", title: "序号", dataIndex: "id", key: "id" },
   {
     align: "center",
     title: "序号",
     key: "sort",
-    scopedSlots: { customRender: "sort" }
+    scopedSlots: { customRender: "sort" },
+    width:60
   },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
   { align: "center", title: "地址", dataIndex: "address", key: "address" },
@@ -68,7 +70,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["teaInfo"]),
+    ...mapState(["teaInfo",'userInfo']),
     pagination: {
       get() {
         return {
@@ -130,6 +132,17 @@ export default {
       });
     }
   },
+  // beforeRouteLeave(to,from,next){
+  //   let userInfo = this.userInfo
+  //   let length = to.matched.length
+  //   let auth = to.matched[length-1].meta.auth
+  //   next()
+  //   if (!auth||auth.includes(userInfo.roleId)) {
+  //     next()
+  //   }else{
+  //     message.warning('您暂时无权限访问该路径')
+  //   }
+  // },
   watch: {
     name(value) {
       if (value === "") {

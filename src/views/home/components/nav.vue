@@ -57,7 +57,7 @@ export default {
         {
           path: "/home/data",
           title: "数据上传",
-          icon: "&#xe601;",
+          icon: "&#xe6c7;",
           auth: [1, 2]
         }
       ]

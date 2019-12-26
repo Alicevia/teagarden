@@ -24,7 +24,8 @@ instance1.interceptors.response.use(response => {
     message.error('用户信息已过期')
     localStorage.removeItem('user-token');
     store.dispatch('deleteUserToken')
-    router.replace({ path: '/login' })
+    location.href = location.origin+location.pathname
+    // router.replace({ path: '/login' })
   }
   return response
 

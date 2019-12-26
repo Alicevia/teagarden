@@ -20,7 +20,7 @@
            ]"
             placeholder="请输入新手机号"
           >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="phone" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
         <a-form-item label="原手机号" v-bind="formItemLayout">
@@ -36,7 +36,7 @@
               ]"
             placeholder="请输入原手机号"
           >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="phone" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
         <a-form-item label="原密码" v-bind="formItemLayout">

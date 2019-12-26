@@ -20,13 +20,17 @@
   </div>
 </template>
 <script>
-import {reqUploadTeaInfo} from '@/api'
-import utils from '../../../../utils';
+import { reqUploadTeaInfo } from "@/api";
+import utils from "../../../../utils";
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
       fileList: []
     };
+  },
+  computed:{
+    ...mapState(['userInfo'])
   },
   methods: {
     handleChange(info) {
@@ -42,17 +46,29 @@ export default {
     },
 
     beforeUpload(file) {
-      this.handleUpload(file)
+      this.handleUpload(file);
       return false;
     },
-    async handleUpload(file){
-        console.log(file)
-        const formData = new FormData();
-        formData.append('file', file);
-      let {data} = await reqUploadTeaInfo(formData)
-      utils.detailBackCode(data,{s:'上传成功',e:'上传失败'})
+    async handleUpload(file) {
+      console.log(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      let { data } = await reqUploadTeaInfo(formData);
+      utils.detailBackCode(data, { s: "上传成功", e: "上传失败" });
     }
-  }
+  },
+
+  // beforeRouteLeave(to, from, next) {
+  //   let userInfo = this.userInfo
+  //   let length = to.matched.length
+  //   let auth = to.matched[length-1].meta.auth
+  //   next()
+  //   if (!auth||auth.includes(userInfo.roleId)) {
+  //     next()
+  //   }else{
+  //     message.warning('您暂时无权限访问该路径')
+  //   }
+  // }
 };
 </script>
 <style lang='stylus' scoped>
