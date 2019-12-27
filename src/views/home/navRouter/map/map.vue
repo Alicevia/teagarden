@@ -122,6 +122,10 @@ export default {
   methods: {
     ...mapActions(["getSubscribeTea",'getOneselfPosition']),
   },
+    beforeRouteLeave(to,from,next){
+   this.$authority(to,from,next)
+  },
+
 
   components: {}
 };

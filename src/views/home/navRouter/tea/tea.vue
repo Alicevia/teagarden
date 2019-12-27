@@ -141,6 +141,10 @@ export default {
     this.getTeaInfo({ page: 1, size: 10, name: this.name });
   },
   mounted() {},
+    beforeRouteLeave(to,from,next){
+   this.$authority(to,from,next)
+  },
+
 
   methods: {
     ...mapActions(["getTeaInfo", "getSubscribeTea"]),
@@ -222,6 +226,7 @@ export default {
       }
     }
   },
+
   watch: {
     name(value) {
       if (value === "") {

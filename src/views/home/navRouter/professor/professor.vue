@@ -154,6 +154,10 @@ export default {
       }
     }
   },
+    beforeRouteLeave(to,from,next){
+   this.$authority(to,from,next)
+  },
+
 
   components: { TableShow, RemarkDialog }
 };

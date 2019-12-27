@@ -23,6 +23,8 @@
 import { reqUploadTeaInfo } from "@/api";
 import utils from "../../../../utils";
 import { mapState } from 'vuex';
+import { message } from 'ant-design-vue';
+
 export default {
   data() {
     return {
@@ -58,17 +60,17 @@ export default {
     }
   },
 
-  // beforeRouteLeave(to, from, next) {
-  //   let userInfo = this.userInfo
-  //   let length = to.matched.length
-  //   let auth = to.matched[length-1].meta.auth
-  //   next()
-  //   if (!auth||auth.includes(userInfo.roleId)) {
-  //     next()
-  //   }else{
-  //     message.warning('您暂时无权限访问该路径')
-  //   }
-  // }
+  beforeRouteLeave(to, from, next) {
+    let userInfo = this.userInfo
+    let length = to.matched.length
+    let auth = to.matched[length-1].meta.auth
+    if (!auth||auth.includes(userInfo.roleId)) {
+      next()
+    }else{
+      message.warning('您暂时无权限访问该路径')
+      next({path:from.path})
+    }
+  }
 };
 </script>
 <style lang='stylus' scoped>

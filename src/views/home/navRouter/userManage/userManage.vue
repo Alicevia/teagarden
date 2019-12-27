@@ -72,7 +72,8 @@ export default {
       phone: this.searchApplyUser
     });
   },
-  mounted() {},
+  mounted() {
+  },
 
   methods: {
     ...mapActions(["getAllUserApplyLoginInfo"]),
@@ -126,6 +127,9 @@ export default {
         });
       }
     }
+  },
+  beforeRouteLeave(to,from,next){
+   this.$authority(to,from,next)
   },
 
   components: { TableShow }
