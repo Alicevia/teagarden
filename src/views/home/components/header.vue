@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <a-input v-show="$route.path==='/home/map'" @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入农田名称" size="large">
+    <a-input v-show="$route.path==='/home/map'" @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入茶园名称" size="large">
       <a-icon slot="prefix" type="search" />
     </a-input>
     <div class="user-center">
@@ -42,7 +42,7 @@ export default {
         return item.name.includes(value)
       })
       if (!searchResult) {
-        message.warning('搜索结果为空')
+        message.warning('您未订阅该茶园,请订阅后再查找')
         this.$store.commit(TYPES.SEARCH_RESULT_POSITION,[])
       }else{
         this.$store.commit(TYPES.SEARCH_RESULT_POSITION,[parseFloat(searchResult.longitude),parseFloat(searchResult.latitude)])

@@ -42,11 +42,12 @@ export default {
     top 50%
     transform translate(-50%,-50%)
     width 600px
-    height 520px  
+    height 570px  
     background:rgba(255,255,255,1);
     box-shadow:0px 0px 14px 0px rgba(0, 0, 0, 0.2);
     box-sizing border-box
     padding 20px
+
 
     /deep/.title
       font-size 18px

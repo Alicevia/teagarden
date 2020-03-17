@@ -29,6 +29,8 @@ const columns = [
     key: "sort",
     scopedSlots: { customRender: "sort" }
   },
+  { align: "center", title: "用户名", dataIndex: "name", key: "name" },
+
   { align: "center", title: "角色", dataIndex: "roleName", key: "roleName" },
   { align: "center", title: "手机号", dataIndex: "phone", key: "phone" },
   {
@@ -83,7 +85,7 @@ export default {
       this.getAllUserApplyLoginInfo({
         page,
         size: pageSize,
-        phone: this.searchApplyUser
+        phone: this.searchApplyUser,
       });
     },
     // 通过申请

@@ -39,7 +39,12 @@ export default {
       state.oneselfPosition = payload
     },
 
-
+// 专家---------------------------
+    [TYPES.GET_PROFESSOR_SUGGEST_LIST](state,payload){
+      let {list=[],total} = payload
+      state.professorSuggestList.list = list
+      state.professorSuggestList.total = total
+    },
 
     // 管理员---------
     [TYPES.GET_ALL_USER_APPLAY_INFO](state,payload){

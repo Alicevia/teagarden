@@ -110,6 +110,18 @@ export default {
       commit(TYPES.GET_TEA_DETAIL,payload)
     })
   },
+
+  // 专家列表==========================================
+  async getProfessorSuggestList({commit},payload){
+    let {data} = await allReq.reqProfessorSuggestList(payload)
+    console.log(data)
+    detailBackCode(data,{},(payload)=>{
+      commit(TYPES.GET_PROFESSOR_SUGGEST_LIST,payload)
+    })
+  },
+
+
+
   // 管理员--------------------------
   // 获取正在申请登陆权限的用户
   async getAllUserApplyLoginInfo({commit},payload){

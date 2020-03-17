@@ -2,7 +2,7 @@
   <div>
     <TableShow
       :columns="columns"
-      :tableData="teaInfo.list"
+      :tableData="professorSuggestList.list"
       :customRow="customRow"
       :pagination="pagination"
     >
@@ -17,12 +17,18 @@
         <a-button style="margin:0 0px 0 10px" @click="searchTea">查询</a-button>
         <!-- <a-button type="primary">导出</a-button> -->
       </div>
-      <a-button slot="action" slot-scope="{record}" type="primary" style="borderRadius:16px" @click.stop="advisePro(record.id)">
+      <a-button
+        slot="action"
+        slot-scope="{record}"
+        type="primary"
+        style="borderRadius:16px"
+        @click.stop="advisePro(record.id)"
+      >
         <span class="iconfont" style="fontSize:14px">&#xe68d;</span>
         <span style="marginLeft:6px">建议</span>
       </a-button>
     </TableShow>
-    <RemarkDialog ref="proAdvise" theme='专家建议' :comment='{}' :searchId='searchId'></RemarkDialog>
+    <RemarkDialog ref="proAdvise" theme="专家建议" :comment="{}" :searchId="searchId"></RemarkDialog>
   </div>
 </template>
 <script>
@@ -30,7 +36,7 @@ import RemarkDialog from "home/components/remarkDialog.vue";
 
 import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
 const columns = [
   // { align: "center", title: "序号", dataIndex: "id", key: "id" },
   {
@@ -38,15 +44,15 @@ const columns = [
     title: "序号",
     key: "sort",
     scopedSlots: { customRender: "sort" },
-    width:60
+    width: 60
   },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
-  { align: "center", title: "地址", dataIndex: "address", key: "address" },
+  // { align: "center", title: "地址", dataIndex: "address", key: "address" },
   { align: "center", title: "建园时间(年)", dataIndex: "year", key: "year" },
   { align: "center", title: "茶园面积(亩)", dataIndex: "area", key: "area" },
   {
     align: "center",
-    title: "茶树品种(年)",
+    title: "茶树品种",
     dataIndex: "varieties",
     key: "varieties"
   },
@@ -65,12 +71,12 @@ export default {
       current: 1,
       pageSize: 10,
       name: "",
-      searchId:''
+      searchId: ""
     };
   },
 
   computed: {
-    ...mapState(["teaInfo",'userInfo']),
+    ...mapState(["professorSuggestList", "userInfo"]),
     pagination: {
       get() {
         return {
@@ -81,7 +87,7 @@ export default {
           pageSize: this.pageSize,
           // showSizeChanger:true,
           onChange: this.changePage,
-          total: this.teaInfo.total || 0
+          total: this.professorSuggestList.total || 0
         };
       }
     },
@@ -91,7 +97,10 @@ export default {
           on: {
             click: e => {
               // this.$router.push({ path: "/home/detail", query: record });
-                this.$router.push({path:'/home/detail',query:{id:record.id}})
+              this.$router.push({
+                path: "/home/detail",
+                query: { id: record.id }
+              });
             }
           }
         };
@@ -99,20 +108,23 @@ export default {
     }
   },
   created() {
-    this.getTeaInfo({ page: 1, size: 10, name: this.name });
+    this.getProfessorSuggestList({ page: 1, size: 10, name: this.name })
+    // this.getTeaInfo({ page: 1, size: 10, name: this.name });
   },
   mounted() {},
-
+  activated(){
+    this.getProfessorSuggestList({ page: 1, size: 10, name: this.name })
+  },
   methods: {
-    ...mapActions(["getTeaInfo"]),
+    ...mapActions(["getProfessorSuggestList"]),
     advisePro(id) {
-      this.searchId = id
-      this.$refs['proAdvise'].showModal()
+      this.searchId = id;
+      this.$refs["proAdvise"].showModal();
     },
     // 改变页码
     changePage(page, pageSize) {
       this.current = page;
-      this.getTeaInfo({
+      this.getProfessorSuggestList({
         page,
         size: pageSize,
         name: this.name
@@ -125,7 +137,7 @@ export default {
         return;
       }
       this.current = 1;
-      this.getTeaInfo({
+      this.getProfessorSuggestList({
         page: this.current,
         size: this.pageSize,
         name: this.name
@@ -146,7 +158,7 @@ export default {
   watch: {
     name(value) {
       if (value === "") {
-        this.getTeaInfo({
+        this.getProfessorSuggestList({
           page: 1,
           size: this.pageSize,
           name: ""
@@ -154,10 +166,9 @@ export default {
       }
     }
   },
-    beforeRouteLeave(to,from,next){
-   this.$authority(to,from,next)
+  beforeRouteLeave(to, from, next) {
+    this.$authority(to, from, next);
   },
-
 
   components: { TableShow, RemarkDialog }
 };

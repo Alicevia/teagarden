@@ -19,6 +19,11 @@ export default {
     },
     teaDetailInfo:{},
     teaSubscribeInfo:[],
+    // 专家页面----------------------
+    professorSuggestList:{
+      list:[],
+      total:0
+    },
     // 超级管理员admin--------------
     allUserRoleInfo:{
       list:[],

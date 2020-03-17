@@ -146,6 +146,10 @@ export default {
         size: this.pageSize,
         name: this.name,
         roleId:this.roleId
+      }).then(()=>{
+        if (this.allUserRoleInfo.total===0) {
+          message.warning('搜索结果为空,无该用户')
+        }
       });
     }
   },

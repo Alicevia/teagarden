@@ -132,7 +132,9 @@ export default {
   },
 
   mounted() {},
-
+  deactivated(){
+    this.handleReset()
+  },
   methods: {
     changeTeaInfo() {
       // console.log("00");

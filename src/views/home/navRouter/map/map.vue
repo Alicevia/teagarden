@@ -36,7 +36,7 @@ export default {
       // center: [115, 29],
       zoom: 11,
       active: false,
- 
+
       // label: {
       //   content: "武夷山镇篁村",
       //   offset: [0, 0]
@@ -64,10 +64,10 @@ export default {
           showMarker: true,
           buttonPosition: "RB",
           events: {
-            init:(o)=> {
-                if (this.teaSubscribeInfo.length!==0) {
-                  return
-                }
+            init: o => {
+              if (this.teaSubscribeInfo.length !== 0) {
+                return;
+              }
               //定位成功 自动将marker和circle移到定位点
               o.getCurrentPosition((status, result) => {
                 // console.log(result);
@@ -76,7 +76,10 @@ export default {
                   // this.longitude =result.position.lng
                   // this.latitude = result.position.lat
                   // console.log([result.position.lng,result.position.lat])
-                  this.getOneselfPosition([result.position.lng,result.position.lat])
+                  this.getOneselfPosition([
+                    result.position.lng,
+                    result.position.lat
+                  ]);
                   // console.log(this.longitude)
                   // self.loaded = true;
                 } else {
@@ -92,7 +95,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["teaSubscribeInfo", "searchResult",'oneselfPosition']),
+    ...mapState(["teaSubscribeInfo", "searchResult", "oneselfPosition"]),
     toNumber() {
       return num => {
         return parseInt(num);
@@ -107,9 +110,9 @@ export default {
           let tea = this.teaSubscribeInfo[0];
           this.zoom = 11;
           return [parseFloat(tea.longitude), parseFloat(tea.latitude)];
-        }else{
+        } else {
           // console.log( [this.longitude,this.latitude])
-          return this.oneselfPosition
+          return this.oneselfPosition;
         }
       }
     }
@@ -120,12 +123,11 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapActions(["getSubscribeTea",'getOneselfPosition']),
+    ...mapActions(["getSubscribeTea", "getOneselfPosition"])
   },
-    beforeRouteLeave(to,from,next){
-   this.$authority(to,from,next)
+  beforeRouteLeave(to, from, next) {
+    this.$authority(to, from, next);
   },
-
 
   components: {}
 };

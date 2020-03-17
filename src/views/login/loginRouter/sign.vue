@@ -13,8 +13,7 @@
             { 
               rules: [
                 { required: true, message: '手机号不能为空' },
-                {len:11,message: '请输入手机号',},
-                {pattern:new RegExp(/\d{11}/g),message:'手机号只能为11位数字'}
+                {len:11,message: '请输入11位手机号',},
               ] 
             }
           ]"
@@ -51,7 +50,7 @@
             :visible="hovered"
             @visibleChange="handleHoverChange"
           >
-            <div slot="content">phone:177 7888 8845</div>
+            <div slot="content">联系管理员</div>
             <span class="method">忘记密码?</span>
           </a-popover>|
           <router-link to="register" tag="span" class="method">注册一个新账号</router-link>

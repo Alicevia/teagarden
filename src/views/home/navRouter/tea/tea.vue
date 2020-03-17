@@ -8,7 +8,7 @@
         :rowSelection="rowSelection"
         :pagination="pagination"
       >
-        <span slot="title">当前页面:茶园</span>
+        <span slot="title">当前页面:茶园列表</span>
         <div slot="opreate">
           <a-input-search
             v-model="name"
@@ -53,6 +53,7 @@ import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
 import { reqSubscribeTea, reqUnSubscribeTea, reqExportTea } from "@/api";
 import utils from "../../../../utils";
+import { message } from 'ant-design-vue';
 const columns = [
   {
     align: "center",
@@ -62,12 +63,12 @@ const columns = [
   },
   // { align: "center", title: "序号", dataIndex: "id", key: "id",width:60 },
   { align: "center", title: "茶园名称", dataIndex: "name", key: "name" },
-  { align: "center", title: "地址", dataIndex: "address", key: "address" },
+  // { align: "center", title: "地址", dataIndex: "address", key: "address" },
   { align: "center", title: "建园时间(年)", dataIndex: "year", key: "year" },
   { align: "center", title: "茶园面积(亩)", dataIndex: "area", key: "area" },
   {
     align: "center",
-    title: "茶树品种(年)",
+    title: "茶树品种",
     dataIndex: "varieties",
     key: "varieties"
   },
@@ -86,7 +87,8 @@ export default {
       columns,
       current: 1,
       pageSize: 10,
-      name: ""
+      name: "",
+  
     };
   },
 
@@ -139,6 +141,9 @@ export default {
   },
   created() {
     this.getTeaInfo({ page: 1, size: 10, name: this.name });
+  },
+  activated(){
+    this.getTeaInfo({ page: this.current, size: 10, name: this.name });
   },
   mounted() {},
     beforeRouteLeave(to,from,next){
@@ -221,6 +226,11 @@ export default {
           isAll,
           teaGardenIds: this.selectedRowKeys
         };
+        if (!this.selectedRowKeys||this.selectedRowKeys==='undefined'||this.selectedRowKeys.length===0) {
+          this.loading = false
+          message.warning('请选择你要导出的茶园')
+          return
+        }
         let { data } = await reqExportTea(payload);
         this.exportEx(data);
       }

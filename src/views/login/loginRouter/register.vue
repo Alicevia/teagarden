@@ -5,6 +5,22 @@
     </div>
     <img class="logo" src="@/assets/images/logo.png" alt />
     <a-form id="components-form-demo-normal-login" :form="form" class="form">
+       <a-form-item>
+        <a-input
+          size="large"
+          v-decorator="[
+            'name',
+            { 
+              rules: [
+                { required: true, message: '用户名不能为空' },
+              ] 
+            }
+          ]"
+          placeholder="请输入用户名"
+        >
+          <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+        </a-input>
+      </a-form-item>
       <a-form-item>
         <a-input
           size="large"
@@ -13,14 +29,13 @@
             { 
               rules: [
                 { required: true, message: '手机号不能为空' },
-                {len:11,message: '请输入手机号',},
-                {pattern:new RegExp(/\d{11}/g),message:'手机号只能为11位数字'}
+                {len:11,message: '请输入11位手机号',},
               ] 
             }
           ]"
           placeholder="请输入手机号"
         >
-          <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+          <a-icon slot="prefix" type="phone" style="color: rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
       <a-form-item>
@@ -107,7 +122,8 @@ export default {
         if (!err) {
           let payload = {
             password:values.password,
-            phone:values.phone
+            phone:values.phone,
+            name:values.name
           }
           console.log(payload)
           this.getUserRegister(payload)
@@ -119,4 +135,9 @@ export default {
   components: {}
 };
 </script>
-<style lang='stylus' scoped></style>
+
+<style lang='stylus' scoped>
+
+
+
+</style>

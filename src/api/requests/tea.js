@@ -68,3 +68,12 @@ export const reqExportTea = data=>axios({
     responseType: 'blob'
   }
 })
+
+// 专家---------------------------
+// 获取专家评论过的茶园列表
+export const reqProfessorSuggestList=data=>axios({
+  url:'postscript/querySuggestionPc',
+  method:'get',
+  flag:true,
+  data
+})
