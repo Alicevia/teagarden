@@ -165,6 +165,19 @@ export default {
           roleId:this.roleId
         });
       }
+    },
+    name(value){
+      if (value.trim()==='') {
+        this.roleId=undefined
+        this.current = 1
+        this.getAllUserRoleInfo({
+          page:this.current,
+          size:this.pageSize,
+          name:this.name,
+          roleId:this.roleId
+        })
+      }
+
     }
   },
 

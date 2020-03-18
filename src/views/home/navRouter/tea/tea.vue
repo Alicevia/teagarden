@@ -93,7 +93,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["teaInfo"]),
+    ...mapState(["teaInfo",'userInfo']),
     rowSelection() {
       const { selectedRowKeys } = this;
       return {
@@ -217,6 +217,10 @@ export default {
       this.loading = false;
     },
     async exportTea(isAll) {
+      if (this.userInfo.roleId===4) {
+        message.warning('普通用户无权限导出信息')
+        return
+      }
       this.loading = true;
       if (isAll) {
         let { data } = await reqExportTea({ isAll });
