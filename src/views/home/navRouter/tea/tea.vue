@@ -15,6 +15,7 @@
             placeholder="搜索"
             @keyup.enter="searchTea"
             style="width: 200px"
+            allowClear
           />
           <a-button style="margin:0 10px" @click="searchTea">查询</a-button>
           <a-button type="primary" style="marginRight:10px" @click="exportTea(false)">导出选中</a-button>

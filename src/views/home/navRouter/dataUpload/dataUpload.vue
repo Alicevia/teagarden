@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     handleChange(info) {
+
       const status = info.file.status;
       if (status !== "uploading") {
         // console.log(info.file, info.fileList);
@@ -51,14 +52,15 @@ export default {
       let { name } = file;
       let a = name.lastIndexOf(".");
       let b = name.slice(a + 1);
-      if (b === "xls" || b === "xlsx") {
-        this.handleUpload(file);
+      if (b === "xls" || b === "xlsx" ) {
+  
+        this.handleExcUpload(file);
+      }else{
+        message.warning("请上传Excel电子表格文件");
       }
-      message.warning("请上传Excel电子表格文件");
-
-      return false;
+      return false;//手动上传
     },
-    async handleUpload(file) {
+    async handleExcUpload(file) {
       const formData = new FormData();
       formData.append("file", file);
       let { data } = await reqUploadTeaInfo(formData);

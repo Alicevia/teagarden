@@ -7,6 +7,7 @@
         v-model="searchApplyUser"
         placeholder="请输入手机号"
         style="width: 200px;margin:0 10px"
+        allowClear
       />
       <a-button style="backgroundColor:#00B57E;color:white" @click="searchApplyList">查询</a-button>
     </div>

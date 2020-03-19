@@ -6,7 +6,7 @@
         <a-select-option  v-for="(item,index) in ['管理员','专家','普通用户','所有用户']" :key="index+2" >{{item}}</a-select-option>
       </a-select>
       <!-- 1 超管 2管理 3专家 4用户 -->
-      <a-input-search v-model="name" placeholder="请输入用户名" style="width: 200px;margin:0 10px" />
+      <a-input-search allowClear v-model="name" placeholder="请输入用户名" style="width: 200px;margin:0 10px" />
       <a-button style="backgroundColor:#00B57E;color:white" @click="searchUserRole">查询</a-button>
     </div>
     <template #action='{record}'>

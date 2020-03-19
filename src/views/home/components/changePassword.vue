@@ -1,12 +1,15 @@
 <template>
   <div>
     <a-modal title="修改密码" v-model="visible" @ok="handleOk">
-      <a-form id="components-form-demo-normal-login" 
-      layout='horizontal'
-      :form="form" class="login-form">
-      <a-form-item label="旧密码" v-bind="formItemLayout" >
+      <a-form
+        id="components-form-demo-normal-login"
+        layout="horizontal"
+        :form="form"
+        class="login-form"
+      >
+        <a-form-item label="旧密码" v-bind="formItemLayout">
           <a-input
-          v-decorator="[
+            v-decorator="[
             'oldpass',
             { 
               rules: [
@@ -21,7 +24,7 @@
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
-        <a-form-item label="新密码" v-bind="formItemLayout" >
+        <a-form-item label="新密码" v-bind="formItemLayout">
           <a-input
             v-decorator="[
                 'password',
@@ -33,15 +36,15 @@
                   ]
                 },
               ]"
-              type="password"
-              placeholder="请输入新密码"
+            type="password"
+            placeholder="请输入新密码"
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
-        <a-form-item label="确认新密码" v-bind="formItemLayout" >
+        <a-form-item label="确认新密码" v-bind="formItemLayout">
           <a-input
-          v-decorator="[
+            v-decorator="[
           'password2',
             { 
               rules: [
@@ -51,8 +54,8 @@
               ] 
             },
         ]"
-          type="password"
-          placeholder="请再次输入密码"
+            type="password"
+            placeholder="请再次输入密码"
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
@@ -62,12 +65,12 @@
   </div>
 </template>
 <script>
-import {reqModiPassword} from '@/api'
-import utils from '../../../utils';
+import { reqModiPassword } from "@/api";
+import utils from "../../../utils";
 export default {
   data() {
     return {
-       formItemLayout: {
+      formItemLayout: {
         labelCol: {
           sm: { span: 8 }
         },
@@ -84,28 +87,27 @@ export default {
       this.visible = !this.visible;
     },
     handleOk(e) {
-        e.preventDefault();
+      e.preventDefault();
       this.form.validateFieldsAndScroll(async (err, values) => {
         if (!err) {
           let payload = {
-            newpass:values.password,
-            oldpass:values.oldpass
-          }
-          let {data} = await reqModiPassword(payload)
-          utils.detailBackCode(data,{s:'修改密码成功'},()=>{
-            this.visible = !this.visible
-          })
-
+            newpass: values.password,
+            oldpass: values.oldpass
+          };
+          let { data } = await reqModiPassword(payload);
+          utils.detailBackCode(data, { s: "修改密码成功" }, () => {
+            this.visible = !this.visible;
+          });
         }
       });
-
     },
 
-
-
-        // 处理验证两次密码是否一致
+    // 处理验证两次密码是否一致
     handlePass(rule, value, callback) {
       this.password = value;
+      if (value.indexOf(" ") !== -1) {
+        callback("空格不能作为密码");
+      }
       if (this.password2 && this.password !== this.password2) {
         callback("两次密码输入不一致！");
       }

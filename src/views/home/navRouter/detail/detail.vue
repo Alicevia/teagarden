@@ -1,7 +1,7 @@
 <template>
   <div class="content-item">
     <div class="current-position">
-      <span @click="goBack" class="iconfont" style="cursor:pointer">&#xe62c;当前位置: 列表/详情页</span>
+      <span @click="goBack" class="iconfont" style="cursor:pointer">&#xe62c;当前位置: 茶园列表/详情页</span>
       <div class="detail-operate">
         <a-button
           type="primary"

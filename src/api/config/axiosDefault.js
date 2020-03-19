@@ -34,7 +34,7 @@ instance1.interceptors.response.use(response => {
 })
 
 let instance2 = axios.create({
-  baseURL: 'https://www.cluster-dt.com/pcwechat/',
+  // baseURL: 'https://www.cluster-dt.com/pcwechat/',
   timeout: 10000
 })
 

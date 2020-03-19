@@ -4,9 +4,9 @@ import router from './router'
 import store from './store'
 
 import {
-  Button, message, Layout, Table, Input, Col, Switch,Popover,
+  Button, message, Layout, Table, Input, Col, Switch, Popover,
   Cascader, Comment, Avatar, List, Spin, AutoComplete, Checkbox,
-  Modal, Form, Select, Upload, Icon, Tooltip, Row, Menu
+  Modal, Form, Select, Upload, Icon, Tooltip, Row, Menu,Progress
 } from 'ant-design-vue'
 
 import VueAMap from 'vue-amap'
@@ -26,23 +26,23 @@ import VueAMap from 'vue-amap'
 //   v: "1.4.4"
 // });
 
-Vue.prototype.$authority=function (to,from,next){
+Vue.prototype.$authority = function (to, from, next) {
   let userInfo = store.state.userInfo
   let length = to.matched.length
-  let auth = to.matched[length-1].meta.auth
-  if (!auth||auth.includes(userInfo.roleId)) {
+  let auth = to.matched[length - 1].meta.auth
+  if (!auth || auth.includes(userInfo.roleId)) {
     next()
-  }else{
+  } else {
     message.warning('您暂时无权限访问该路径')
-    next({path:from.path})
+    next({ path: from.path })
   }
 }
 Vue.prototype.$appName = 'My App'
 
 function syncStorageToAxios() {
   if (localStorage.getItem('user-token')) {
-      let userToken =  localStorage.getItem('user-token')
-      store.dispatch('getUserToken',userToken)
+    let userToken = localStorage.getItem('user-token')
+    store.dispatch('getUserToken', userToken)
   }
 }
 syncStorageToAxios()
@@ -73,6 +73,7 @@ Vue.use(Avatar)
 Vue.use(List)
 Vue.use(Switch)
 Vue.use(Spin)
+Vue.use(Progress)
 
 
 

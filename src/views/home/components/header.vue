@@ -1,7 +1,7 @@
 <template>
   <a-layout-header class="header">
-    <a-input v-show="$route.path==='/home/map'" @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入茶园名称" size="large">
-      <a-icon slot="prefix" type="search" />
+    <a-input allowClear v-show="$route.path==='/home/map'" @pressEnter='searchFarm' v-model="search"  class="search-farmland" placeholder="请输入茶园名称" size="large">
+      <a-icon   slot="prefix" type="search" />
     </a-input>
     <div class="user-center">
       <router-link to="/home/account" tag="div" class="account">

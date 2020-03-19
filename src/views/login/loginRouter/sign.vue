@@ -13,7 +13,7 @@
             { 
               rules: [
                 { required: true, message: '手机号不能为空' },
-                {len:11,message: '请输入11位手机号',},
+                {pattern:new RegExp( /^1\d{10}$/,'g'),message:'手机号为11位数字'},
               ] 
             }
           ]"
