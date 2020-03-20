@@ -21,6 +21,7 @@ instance1.interceptors.request.use(config => {
 
 instance1.interceptors.response.use(response => {
   if (response.data.code === 401) {
+    console.log('-----')
     message.error('用户信息已过期')
     localStorage.removeItem('user-token');
     store.dispatch('deleteUserToken')
@@ -53,3 +54,6 @@ instance2.interceptors.response.use(response => {
 
 
 export { instance1, instance2 }
+
+
+

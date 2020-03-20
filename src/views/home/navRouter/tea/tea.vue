@@ -54,7 +54,7 @@ import TableShow from "home/components/tableShow";
 import { mapState, mapActions } from "vuex";
 import { reqSubscribeTea, reqUnSubscribeTea, reqExportTea } from "@/api";
 import utils from "../../../../utils";
-import { message } from 'ant-design-vue';
+import { message } from "ant-design-vue";
 const columns = [
   {
     align: "center",
@@ -89,25 +89,28 @@ export default {
       current: 1,
       pageSize: 10,
       name: "",
-  
+      selectedRowKeys:[]
     };
   },
 
   computed: {
-    ...mapState(["teaInfo",'userInfo']),
+    ...mapState(["teaInfo", "userInfo"]),
     rowSelection() {
       const { selectedRowKeys } = this;
+
       return {
         onChange: (selectedRowKeys, selectedRows) => {
-          // console.log(selectedRowKeys);
           this.selectedRowKeys = selectedRowKeys;
         },
-        getCheckboxProps: record => ({
-          props: {
-            disabled: record.name === "Disabled User", // Column configuration not to be checked
-            name: record.name
-          }
-        })
+        selectedRowKeys,
+        getCheckboxProps: record => {
+          return {
+            props: {
+              disabled: record.name === "Disabled User", // Column configuration not to be checked
+              name: record.name
+            }
+          };
+        }
       };
     },
     pagination: {
@@ -143,14 +146,13 @@ export default {
   created() {
     this.getTeaInfo({ page: 1, size: 10, name: this.name });
   },
-  activated(){
+  activated() {
     this.getTeaInfo({ page: this.current, size: 10, name: this.name });
   },
   mounted() {},
-    beforeRouteLeave(to,from,next){
-   this.$authority(to,from,next)
+  beforeRouteLeave(to, from, next) {
+    this.$authority(to, from, next);
   },
-
 
   methods: {
     ...mapActions(["getTeaInfo", "getSubscribeTea"]),
@@ -218,9 +220,9 @@ export default {
       this.loading = false;
     },
     async exportTea(isAll) {
-      if (this.userInfo.roleId===4) {
-        message.warning('普通用户无权限导出信息')
-        return
+      if (this.userInfo.roleId === 4) {
+        message.warning("普通用户无权限导出信息");
+        return;
       }
       this.loading = true;
       if (isAll) {
@@ -231,14 +233,21 @@ export default {
           isAll,
           teaGardenIds: this.selectedRowKeys
         };
-        if (!this.selectedRowKeys||this.selectedRowKeys==='undefined'||this.selectedRowKeys.length===0) {
-          this.loading = false
-          message.warning('请选择你要导出的茶园')
-          return
+        if (
+          !this.selectedRowKeys ||
+          this.selectedRowKeys === "undefined" ||
+          this.selectedRowKeys.length === 0
+        ) {
+          this.loading = false;
+          message.warning("请选择你要导出的茶园");
+          return;
         }
         let { data } = await reqExportTea(payload);
         this.exportEx(data);
       }
+      this.selectedRowKeys = []
+      // this.rowSelection.onChange.call(this,[])
+      // console.log(this.selectedRowKeys)
     }
   },
 
